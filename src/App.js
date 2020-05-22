@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar'
-//import logo from './logo.svg';
+import Button from 'react-bootstrap/Button'
+import logo from './DHBW_Logo.png';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -8,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <div className="App">
-		
+
 		<link
 		  rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -45,4 +46,24 @@ function App() {
   );
 }
 
-export default App;
+function App2() {
+  return (
+    <div className="App">
+
+
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+          <h1>SUMZ@DHBW Web App!</h1> //Fehler: header ist hinter Logo
+      </header>
+      <body className="App-body">
+      <p>
+      Diese Anwendung wird zur Berechung des Unternehmenswertes verwendet! Das Brown-Rozeff-Modell wird zur Prognose zukünftiger Casflows verwendet.
+      Die Daten der 30 Dax- Unternehmen sind im Backend dieser App gespeichert und werden je nach Eingabe des Benutzers herangezogen. Basierend auf der gewählten Methode wird der Unternehmenswert berechnet.
+      </p>
+      <Button className="Button-start" variant="danger">Start</Button>
+      </body>
+    </div>
+  );
+}
+
+export default App2;
