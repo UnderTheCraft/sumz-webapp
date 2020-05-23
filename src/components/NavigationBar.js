@@ -29,10 +29,10 @@ export const NavigationBar = () => (
                         <NavLink to="/">Home</NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <NavLink to="/About">Übersicht</NavLink>
+                        <NavLink to="/about">Übersicht</NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <NavLink to="/Contact">Kontakt</NavLink>
+                        <NavLink to="/contact">Kontakt</NavLink>
                     </Nav.Item>
                 </Nav>
             </Navbar.Collapse >
