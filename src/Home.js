@@ -6,7 +6,10 @@ import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 
 const Styles = styled.div`
-
+.buttonlink {
+    color: white;
+    text-decoration: none;
+}
 `;
 
 export const Home = () => (
@@ -20,7 +23,7 @@ export const Home = () => (
                     </p>
                 <br></br>
                 <Button className="Button-start" variant="danger">
-                    <NavLink to="/about">Start</NavLink>
+                    <NavLink className="buttonlink" to="/about">Start</NavLink>
                 </Button>
             </div>
         </Layout>

@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar'
+//import Navbar from 'react-bootstrap/Navbar'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Home } from './Home';
 import { About } from './About';
 import { NoMatch } from './NoMatch';
@@ -10,7 +10,7 @@ import { Contact } from './Contact';
 import { NavigationBar } from './components/NavigationBar';
 
 
-function App() {
+/*function App() {
   return (
     <div className="App">
 
@@ -41,7 +41,7 @@ function App() {
       </header>
     </div>
   );
-}
+}*/
 
 function App2() {
   return (

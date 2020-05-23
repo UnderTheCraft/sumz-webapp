@@ -16,6 +16,16 @@ const Styles = styled.div`
         color: white !important;
     }
 }
+
+.navigationlink {
+    color: #bbb;
+    text-decoration: none;
+    margin-right: 1rem;
+
+    &:hover{
+        color: white;
+    }
+}
 `;
 
 export const NavigationBar = () => (
@@ -26,13 +36,13 @@ export const NavigationBar = () => (
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <NavLink to="/">Home</NavLink>
+                        <NavLink className="navigationlink" to="/">Home</NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <NavLink to="/about">Übersicht</NavLink>
+                        <NavLink className="navigationlink" to="/about">Übrsicht</NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <NavLink to="/contact">Kontakt</NavLink>
+                        <NavLink className="navigationlink" to="/contact">Kontakt</NavLink>
                     </Nav.Item>
                 </Nav>
             </Navbar.Collapse >
