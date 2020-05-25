@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import { Home } from './Home';
 import { About } from './About';
+import { Selection } from './Selection';
+import { Result } from './Result';
 import { NoMatch } from './NoMatch';
 import { Contact } from './Contact';
 import { NavigationBar } from './components/NavigationBar';
@@ -51,6 +53,8 @@ function App2() {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
+          <Route path="/selection" component={Selection} />
+          <Route path="/result" component={Result} />
           <Route component={NoMatch} />
         </Switch>
     </>
