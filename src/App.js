@@ -12,7 +12,7 @@ import { Contact } from './Contact';
 import { NavigationBar } from './components/NavigationBar';
 
 
-/*function App() {
+/*function Test() {
   return (
     <div className="App">
 
@@ -45,7 +45,7 @@ import { NavigationBar } from './components/NavigationBar';
   );
 }*/
 
-function App2() {
+function App() {
   return (
     <>
       <NavigationBar></NavigationBar>
@@ -61,4 +61,4 @@ function App2() {
   );
 }
 
-export default App2;
+export default App;
