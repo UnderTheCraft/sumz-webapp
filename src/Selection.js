@@ -33,8 +33,8 @@ export class Selection extends React.Component {
 
         this.currentId = 0;
         this.changeValue = this.changeValue.bind(this);
-        this.state = {
-            actions: [{ id: "1", key: "1", name: "adidas" },
+        this.state = { actions:
+            [{ id: "1", key: "1", name: "adidas" },
             { id: "2", key: "2", name: "Allianz" },
             { id: "3", key: "3", name: "BASF" },
             { id: "4", key: "4", name: "Bayer" },
@@ -49,22 +49,22 @@ export class Selection extends React.Component {
             { id: "13", key: "13", name: "Deutsche Telekom" },
             { id: "14", key: "14", name: "E.ON" },
             { id: "15", key: "15", name: "Fresenius" },
-            { id: "16", key: "16", name: "Fresenius Medical Card" },
+            { id: "16", key: "16", name: "Fresenius Medical Care" },
             { id: "17", key: "17", name: "HeidelbergCement" },
-            { id: "18", key: "18", name: "Henkel vz." },
+            { id: "18", key: "18", name: "Henkel" },
             { id: "19", key: "19", name: "Infineon" },
             { id: "20", key: "20", name: "Linde" },
             { id: "21", key: "21", name: "Lufthansa" },
             { id: "22", key: "22", name: "Merck" },
             { id: "23", key: "23", name: "MTU Aero Engines" },
-            { id: "24", key: "24", name: "Münchener Rückversicherungs-Gesellschaft" },
+            { id: "24", key: "24", name: "Münchener Rück" },
             { id: "25", key: "25", name: "RWE" },
             { id: "26", key: "26", name: "SAP" },
             { id: "27", key: "27", name: "Siemens" },
-            { id: "28", key: "28", name: "Volkswagen (VW) vz." },
+            { id: "28", key: "28", name: "Volkswagen" },
             { id: "29", key: "29", name: "Vonovia" },
             { id: "30", key: "30", name: "Wirecard" }],
-            dropDownValue: 'Wähle ein Unternehmen...',
+            dropDownValue: 'Wähle ein Unternehmen ...',
             dropdownOpen: false
         };
     }
