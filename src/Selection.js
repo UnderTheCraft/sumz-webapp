@@ -20,10 +20,10 @@ const Styles = styled.div`
     background-color: #dc3545;
 }
 
-.dropdown{
-    maxHeight: 28px;
+.dropdown-menu {
+    max-height: 20em;
+    overflow: auto;
 }
-
 `;
 
 export class Selection extends React.Component {
