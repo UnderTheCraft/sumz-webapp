@@ -17,6 +17,10 @@ const Styles = styled.div`
     }
 }
 
+.nav-item > .active {
+    color: white !important;
+}
+
 .navigationlink {
     color: #bbb;
     text-decoration: none;
@@ -28,24 +32,26 @@ const Styles = styled.div`
 }
 `;
 
-export const NavigationBar = () => (
-    <Styles>
-        <Navbar expand="lg" bg="dark" className="navbar-dark">
-            <Navbar.Brand href="/">SUMZ Unternehmensbewertung</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ml-auto">
-                    <Nav.Item>
-                        <NavLink className="navigationlink" to="/">Home</NavLink>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <NavLink className="navigationlink" to="/about">Übersicht</NavLink>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <NavLink className="navigationlink" to="/contact">Kontakt</NavLink>
-                    </Nav.Item>
-                </Nav>
-            </Navbar.Collapse >
-        </Navbar >
-    </Styles >
-)
+export class NavigationBar extends React.Component{
+
+    render(){
+        return(
+            <Styles>
+            <Navbar expand="lg" bg="dark" className="navbar-dark">
+                <Navbar.Brand href="/">SUMZ Unternehmensbewertung</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ml-auto">
+                        <Nav.Item>
+                            <NavLink className="navigationlink" to="/about">Übersicht</NavLink>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <NavLink className="navigationlink" to="/contact">Kontakt</NavLink>
+                        </Nav.Item>
+                    </Nav>
+                </Navbar.Collapse >
+            </Navbar >
+        </Styles >
+        )
+    }
+}
