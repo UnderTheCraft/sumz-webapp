@@ -24,6 +24,10 @@ const Styles = styled.div`
     max-height: 20em;
     overflow: auto;
 }
+
+#dropdown-basic {
+    min-width: 236px !important;
+}
 `;
 
 export class Selection extends React.Component {
@@ -86,7 +90,7 @@ export class Selection extends React.Component {
         element.classList.add("active");
         this.currentId = id;
 
-        if(this.currentId !== 0){
+        if (this.currentId !== 0) {
             document.getElementById("ew").disabled = false;
             document.getElementById("dcf").disabled = false;
         }
@@ -98,6 +102,23 @@ export class Selection extends React.Component {
         }
     }
 
+    searchDropdownItem() {
+        var input, i, items;
+        input = document.getElementById("searchInput").value.toUpperCase();
+        items = document.getElementsByClassName("unternehmenItems");
+
+        for (i = 0; i < items.length; i++) {
+            var txtValue = items[i].textContent;
+
+            //Anzeigen bei richtiger sucher bzw. nicht anzeigen bei flascher suche
+            if (txtValue.toUpperCase().indexOf(input) > -1) {
+                items[i].style.display = "block";
+            } else {
+                items[i].style.display = "none";
+            }
+        }
+    }
+
     render() {
         return (
             <Styles>
@@ -105,15 +126,14 @@ export class Selection extends React.Component {
                 <Layout>
                     <div className="App-body">
                         30 DAX Unternehmen
-                        <Dropdown alignRight>
+                        <Dropdown id="dropdown" alignRight>
                             <DropdownToggle variant="danger" id="dropdown-basic">
                                 {this.state.dropDownValue}
                             </DropdownToggle>
-                            <DropdownMenu modifiers={{
-                                setMaxHeight: 200
-                            }}>
+                            <DropdownMenu>
+                                <h6 className="dropdown-header"><input type="text" placeholder="Search.." id="searchInput" onKeyUp={this.searchDropdownItem}></input></h6>
                                 {this.state.actions.map(e => {
-                                    return <DropdownItem id={e.id} key={e.id} onClick={this.changeValue}>{e.name}</DropdownItem>
+                                    return <DropdownItem className="unternehmenItems" id={e.id} key={e.id} onClick={this.changeValue}>{e.name}</DropdownItem>
                                 })}
                             </DropdownMenu>
                         </Dropdown>
