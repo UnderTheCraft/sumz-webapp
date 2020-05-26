@@ -90,9 +90,9 @@ export class Selection extends React.Component {
         element.classList.add("active");
         this.currentId = id;
 
+        // Button und Link freigeben
         if (this.currentId !== 0) {
-            document.getElementById("ew").disabled = false;
-            document.getElementById("dcf").disabled = false;
+            this.disableButton = false;
         }
     }
 
