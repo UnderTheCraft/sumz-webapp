@@ -21,12 +21,27 @@ const Styles = styled.div`
 }
 
 .dropdown-menu {
-    max-height: 20em;
+    max-height: 25em;
     overflow: auto;
 }
 
 #dropdown-basic {
     min-width: 236px !important;
+}
+
+
+@media (max-height: 900px) {
+    .richtung{
+        top: auto !important; 
+        bottom: 0px !important;
+        max-height: 15em !important; 
+        transform: translate3d(0px, -40px, 0px) !important;
+    
+    }
+
+    .dropdown-toggle::after {
+        transform: rotate(180deg) !important;
+    }
 }
 `;
 
@@ -126,16 +141,17 @@ export class Selection extends React.Component {
                 <Layout>
                     <div className="App-body">
                         30 DAX Unternehmen
-                        <Dropdown id="dropdown" alignRight>
+                            <Dropdown id="dropdown" alignRight className="dropdown">
                             <DropdownToggle variant="danger" id="dropdown-basic">
                                 {this.state.dropDownValue}
                             </DropdownToggle>
-                            <DropdownMenu>
+                            <DropdownMenu className="richtung">
                                 <h6 className="dropdown-header">
                                     <div className="input-group">
                                         <input className="form-control" type="text" placeholder="Suche..." id="searchInput" onKeyUp={this.searchDropdownItem} />
                                     </div>
                                 </h6>
+                                <div className="dropdown-divider"></div>
                                 {this.state.actions.map(e => {
                                     return <DropdownItem className="unternehmenItems" id={e.id} key={e.id} onClick={this.changeValue}>{e.name}</DropdownItem>
                                 })}
@@ -152,10 +168,6 @@ export class Selection extends React.Component {
                                 <Link onClick={this.handleClick} className="buttonlink" to="/result">Discounted Cashflow-Verfahren</Link>
                             </Button>
                         </ButtonGroup>
-                        {/*<br/>
-                 <Button className="Button-start" variant="danger">
-                    <NavLink className="buttonlink" to="/result">Let's see!</NavLink>
-                </Button> */}
                     </div>
                 </Layout>
             </Styles >
