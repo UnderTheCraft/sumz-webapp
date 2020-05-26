@@ -110,7 +110,7 @@ export class Selection extends React.Component {
         for (i = 0; i < items.length; i++) {
             var txtValue = items[i].textContent;
 
-            //Anzeigen bei richtiger sucher bzw. nicht anzeigen bei flascher suche
+            //Anzeigen bei richtiger suche bzw. nicht anzeigen bei falscher suche
             if (txtValue.toUpperCase().indexOf(input) > -1) {
                 items[i].style.display = "block";
             } else {
@@ -131,13 +131,17 @@ export class Selection extends React.Component {
                                 {this.state.dropDownValue}
                             </DropdownToggle>
                             <DropdownMenu>
-                                <h6 className="dropdown-header"><input type="text" placeholder="Search.." id="searchInput" onKeyUp={this.searchDropdownItem}></input></h6>
+                                <h6 className="dropdown-header">
+                                    <div className="input-group">
+                                        <input className="form-control" type="text" placeholder="Suche..." id="searchInput" onKeyUp={this.searchDropdownItem} />
+                                    </div>
+                                </h6>
                                 {this.state.actions.map(e => {
                                     return <DropdownItem className="unternehmenItems" id={e.id} key={e.id} onClick={this.changeValue}>{e.name}</DropdownItem>
                                 })}
                             </DropdownMenu>
                         </Dropdown>
-                        <br></br>
+                        <br />
                         <p>Methode der Berechnung</p>
 
                         <ButtonGroup vertical >
@@ -148,13 +152,13 @@ export class Selection extends React.Component {
                                 <Link onClick={this.handleClick} className="buttonlink" to="/result">Discounted Cashflow-Verfahren</Link>
                             </Button>
                         </ButtonGroup>
-                        {/*<br></br>
+                        {/*<br/>
                  <Button className="Button-start" variant="danger">
                     <NavLink className="buttonlink" to="/result">Let's see!</NavLink>
                 </Button> */}
                     </div>
                 </Layout>
-            </Styles>
+            </Styles >
         )
     }
 }
