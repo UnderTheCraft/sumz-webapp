@@ -16,10 +16,6 @@ const Styles = styled.div`
     text-decoration: none;
 }
 
-.active{
-    background-color: #dc3545;
-}
-
 .dropdown-menu {
     max-height: 25em;
     overflow: auto;
@@ -27,6 +23,10 @@ const Styles = styled.div`
 
 #dropdown-basic {
     min-width: 236px !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #dc3545;
 }
 
 
@@ -55,7 +55,7 @@ export class Selection extends React.Component {
         this.changeValue = this.changeValue.bind(this);
         this.state = {
             actions:
-                [{ id: "1", key: "1", name: "adidas" },
+                [{ id: "1", key: "1", name: "Adidas" },
                 { id: "2", key: "2", name: "Allianz" },
                 { id: "3", key: "3", name: "BASF" },
                 { id: "4", key: "4", name: "Bayer" },
