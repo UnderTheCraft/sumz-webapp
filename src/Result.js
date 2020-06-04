@@ -22,8 +22,8 @@ export class Result extends React.Component {
     constructor(props) {
         super(props);
 
-        this.unternehmen = "Adidas";
-        this.methode = "Ertragswertverfahren";
+        this.unternehmen = sessionStorage.getItem('unternehmen');
+        this.methode =  sessionStorage.getItem('methode')
         this.ergebnis = "?";
         this.entwicklung = "sehr gut";
         this.unternehmenswert = "?";
