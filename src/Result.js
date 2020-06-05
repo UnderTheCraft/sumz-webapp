@@ -22,13 +22,26 @@ export class Result extends React.Component {
     constructor(props) {
         super(props);
 
-        this.unternehmen = sessionStorage.getItem('unternehmen');
-        this.methode =  sessionStorage.getItem('methode')
-        this.ergebnis = "?";
-        this.entwicklung = "sehr gut";
-        this.unternehmenswert = "?";
-        this.bewertet = "unterbewertet";
-        this.empfehlung = "kaufen";
+        this.state = {
+            methode: '$methode',
+            ergebnis: "$ergebnis",
+            entwicklung: "$entwicklung",
+            unternehmenswert: "$unternehmenswert",
+            bewertet: "$bewertet",
+            empfehlung: "$empfehlung",
+            cashflows: '$fcf',
+            startDatum: '$startdatum'
+        };
+
+        this.getUnternehmenswert();
+    }
+
+    async getUnternehmenswert() {
+        const response = await fetch('http://sumz-backend.herokuapp.com/getCashFlows/' + sessionStorage.getItem('unternehmen'));
+        const myJson = await response.json();
+
+        this.setState({ methode: sessionStorage.getItem('methode') });
+        this.setState({ unternehmen: myJson.company });  
     }
 
     render() {
@@ -38,17 +51,17 @@ export class Result extends React.Component {
                 <Layout>
                     <div className="App-body">
                         <h1 className="left">... hier kommt das Ergebnis!</h1>
-                        <p> Der Unternehmenswert von {this.unternehmen} wird mit der Methode {this.methode} zum {this.ergebnis} prognostiziert.</p>
+                        <p> Der Unternehmenswert von {this.state.unternehmen} wird mit der Methode {this.state.methode} zum {this.state.ergebnis} prognostiziert.</p>
                         <br />
-                        <h1 className="left">Unternehmenswert: {this.unternehmenswert}</h1>
-                        <p>Die Aktien von {this.unternehmen} scheinen sich bis jetzt {this.entwicklung} zu entwickeln. Die Aktie ist {this.bewertet}!</p>
+                        <h1 className="left">Unternehmenswert: {this.state.unternehmenswert}</h1>
+                        <p>Die Aktien von {this.state.unternehmen} scheinen sich bis jetzt {this.state.entwicklung} zu entwickeln. Die Aktie ist {this.state.bewertet}!</p>
                         <br />
                         <h1 className="left">Aktienkurs</h1>
                         <div className="left" id="bild">
                             <img src={akitendiagramm} className="aktiendiagramm" alt="Aktiendiagramm" />
                         </div>
                         <br />
-                        <h1 className="left">Unsere Empfehlung: {this.empfehlung}</h1>
+                        <h1 className="left">Unsere Empfehlung: {this.state.empfehlung}</h1>
                         <br />
                         <Button variant="danger">
                             <Link className="buttonlink" to="/selection">Neue Berechung</Link>

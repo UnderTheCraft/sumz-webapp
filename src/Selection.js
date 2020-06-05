@@ -115,6 +115,7 @@ export class Selection extends React.Component {
         if (this.disableButton) {
             e.preventDefault()
         }
+
         sessionStorage.setItem('unternehmen', this.state.dropDownValue);
         sessionStorage.setItem('methode', e.currentTarget.textContent);
     }
