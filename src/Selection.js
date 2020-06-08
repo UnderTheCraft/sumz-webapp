@@ -205,7 +205,7 @@ export class Selection extends React.Component {
                         </Dropdown>
                         <br />
 
-                        <Accordion defaultActiveKey="1">
+                        <Accordion defaultActiveKey="0">
                             <Card>
                                 <Card.Header>
                                     <AccordionToggle as={Button} variant="link" eventKey="1">
