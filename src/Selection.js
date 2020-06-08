@@ -1,14 +1,14 @@
 import React from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import styled from 'styled-components';
-import { Layout } from './components/Layout';
-import Button from 'react-bootstrap/Button';
-import { Jumbotron } from './components/Jumbotron';
-import { Link } from 'react-router-dom';
-import DropdownItem from 'react-bootstrap/DropdownItem';
+import { Accordion, AccordionCollapse, AccordionToggle, Button, ButtonGroup, Card, Dropdown, DropdownItem, FormGroup, FormLabel } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Jumbotron } from './components/Jumbotron';
+import { Layout } from './components/Layout';
+
 
 const Styles = styled.div`
 .buttonlink {
@@ -29,7 +29,6 @@ const Styles = styled.div`
     background-color: #dc3545;
 }
 
-
 @media (max-height: 900px) {
     .richtung{
         top: auto !important; 
@@ -43,17 +42,50 @@ const Styles = styled.div`
         transform: rotate(180deg) !important;
     }
 }
+
+.accordion>.card>.card-header {
+    min-width: 310px;
+    text-align: center;
+}
+
+.datepicker input { 
+    text-align: center; 
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.datepicker{
+    text-align:center
+}
+
+.expertLabel{
+font-size: 2rem;
+}
 `;
 
 export class Selection extends React.Component {
-
     constructor(props) {
         super(props);
 
         this.disableButton = true;
         this.currentId = 0;
         this.changeValue = this.changeValue.bind(this);
+        this.dateValue = this.dateChange.bind(this);
         this.state = {
+            startDate: new Date(),
+            zinssatz: 0,
+            mrp: 0,
             actions:
                 [{ id: "1", key: "1", name: "Adidas" },
                 { id: "2", key: "2", name: "Allianz" },
@@ -137,6 +169,17 @@ export class Selection extends React.Component {
         }
     }
 
+    dateChange = date => {
+        this.setState({
+            startDate: date
+        });
+    };
+
+    saveFactors(){
+        var mrpVal = document.getElementById("mrp").value;
+        var zinssatzVal = document.getElementById("zinssatz").value;    
+    }
+
     render() {
         return (
             <Styles>
@@ -144,7 +187,7 @@ export class Selection extends React.Component {
                 <Layout>
                     <div className="App-body">
                         30 DAX Unternehmen
-                            <Dropdown id="dropdown" alignRight className="dropdown">
+                        <Dropdown id="dropdown" alignRight className="dropdown">
                             <DropdownToggle variant="danger" id="dropdown-basic">
                                 {this.state.dropDownValue}
                             </DropdownToggle>
@@ -161,6 +204,62 @@ export class Selection extends React.Component {
                             </DropdownMenu>
                         </Dropdown>
                         <br />
+
+                        <Accordion defaultActiveKey="1">
+                            <Card>
+                                <Card.Header>
+                                    <AccordionToggle as={Button} variant="link" eventKey="1">
+                                        Experteneinstieg
+                                    </AccordionToggle>
+                                </Card.Header>
+                                <AccordionCollapse eventKey="1">
+                                    <Card.Body>
+                                        <FormGroup>
+                                            <FormLabel className="expertLabel">Finanzdaten bis:</FormLabel>
+                                            <br/>
+                                            <div className="datepicker">
+                                                <DatePicker
+                                                    selected={this.state.startDate}
+                                                    onChange={this.dateChange}
+                                                    dateFormat="QQQ yyyy"
+                                                    showQuarterYearPicker
+                                                    block
+                                                />
+                                            </div>
+
+                                            <hr />
+
+                                            <FormLabel className="expertLabel">Risikofreier Zinssatz:</FormLabel>
+                                            <div className="input-group mb-3">
+                                                <input id="zinssatz" type="number" className="form-control" placeholder={this.state.zinssatz} aria-label="Amount (to the nearest dollar)" />
+                                                <div className="input-group-append">
+                                                    <span className="input-group-text">%</span>
+                                                </div>
+                                            </div>
+
+                                            <hr />
+
+                                            <FormLabel className="expertLabel">Marktrisikoprämie:</FormLabel>
+                                            <div className="input-group mb-3">
+                                                <input id="mrp" type="number" className="form-control" placeholder={this.state.mrp} aria-label="Amount (to the nearest dollar)" />
+                                                <div className="input-group-append">
+                                                    <span className="input-group-text">%</span>
+                                                </div>
+                                            </div>
+
+                                            <hr />
+
+                                            <Button variant="danger" type="submit" onClick={this.saveFactors} block>
+                                                Alles Übernehmen
+                                            </Button>
+                                        </FormGroup>
+                                    </Card.Body>
+                                </AccordionCollapse>
+                            </Card>
+                        </Accordion>
+
+                        <br />
+
                         <p>Methode der Berechnung</p>
 
                         <ButtonGroup vertical >
