@@ -23,7 +23,8 @@ export class Result extends React.Component {
         super(props);
 
         this.state = {
-            methode: '$methode',
+            unternehmen: sessionStorage.getItem('unternehmen'),
+            methode: sessionStorage.getItem('methode'),
             ergebnis: "$ergebnis",
             entwicklung: "$entwicklung",
             unternehmenswert: "$unternehmenswert",
@@ -40,8 +41,7 @@ export class Result extends React.Component {
         const response = await fetch('https://sumz-backend.herokuapp.com/getCashFlows/' + sessionStorage.getItem('unternehmen'));
         const myJson = await response.json();
 
-        this.setState({ methode: sessionStorage.getItem('methode') });
-        this.setState({ unternehmen: myJson.company });  
+        console.log(myJson);
     }
 
     render() {
