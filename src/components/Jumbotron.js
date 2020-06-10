@@ -30,6 +30,10 @@ const Styles = styled.div`
     min-height: 200px !important
 }
 
+h1{
+    color: white;
+}
+
 @media (max-width: 1920px) {
     .App-logo {
         display: none !important;
