@@ -2,8 +2,8 @@ import React from 'react';
 import { Accordion, AccordionCollapse, AccordionToggle, Button, ButtonGroup, Card, Dropdown, DropdownItem, FormGroup, FormLabel } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Jumbotron } from './components/Jumbotron';
@@ -14,6 +14,10 @@ const Styles = styled.div`
 .buttonlink {
     color: #222;
     text-decoration: none;
+}
+
+.btn-link {
+    margin-bottom: 40px;
 }
 
 .dropdown-menu {
@@ -44,33 +48,19 @@ const Styles = styled.div`
 }
 
 .accordion>.card>.card-header {
-    min-width: 310px;
+    min-width: 230px;
     text-align: center;
+    max-height: 38px;
+    padding: 0px;
+    background-color: white;
 }
 
-.datepicker input { 
-    text-align: center; 
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+.card-body {
+    border: 1px solid rgba(0,0,0,.125);
 }
 
-.datepicker{
-    text-align:center
-}
-
-.expertLabel{
-font-size: 2rem;
+.form-control{
+   max-width: 160px;
 }
 `;
 
@@ -120,6 +110,27 @@ export class Selection extends React.Component {
             dropDownValue: 'Wähle ein Unternehmen ...',
             dropdownOpen: false
         };
+    }
+
+    async getCompanies() {
+        const response = await fetch('https://sumz-backend.herokuapp.com/companies');
+        const myJson = await response.json();
+
+        console.log(myJson);
+    }
+
+    async getMethods() {
+        const response = await fetch('https://sumz-backend.herokuapp.com/methods');
+        const myJson = await response.json();
+       
+        console.log(myJson);
+    }
+
+    async getFactors() {
+        const response = await fetch('');
+        const myJson = await response.json();
+       
+        console.log(myJson);
     }
 
     changeValue(e) {
@@ -175,9 +186,9 @@ export class Selection extends React.Component {
         });
     };
 
-    saveFactors(){
+    saveFactors() {
         var mrpVal = document.getElementById("mrp").value;
-        var zinssatzVal = document.getElementById("zinssatz").value;    
+        var zinssatzVal = document.getElementById("zinssatz").value;
     }
 
     render() {
@@ -206,7 +217,7 @@ export class Selection extends React.Component {
                         <br />
 
                         <Accordion defaultActiveKey="0">
-                            <Card>
+                            <Card border="white">
                                 <Card.Header>
                                     <AccordionToggle as={Button} variant="link" eventKey="1">
                                         Experteneinstieg
@@ -215,31 +226,25 @@ export class Selection extends React.Component {
                                 <AccordionCollapse eventKey="1">
                                     <Card.Body>
                                         <FormGroup>
-                                            <FormLabel className="expertLabel">Finanzdaten bis:</FormLabel>
-                                            <br/>
+                                            Finanzdaten bis:
+                                            <br />
                                             <div className="datepicker">
-                                                <DatePicker
-                                                    selected={this.state.startDate}
-                                                    onChange={this.dateChange}
-                                                    dateFormat="QQQ yyyy"
-                                                    showQuarterYearPicker
-                                                    block
-                                                />
+                                                <DatePicker picker="quarter" size="large" placeholder="Quartal"/>
                                             </div>
 
                                             <hr />
 
-                                            <FormLabel className="expertLabel">Risikofreier Zinssatz:</FormLabel>
+                                            Risikofreier Zinssatz:
                                             <div className="input-group mb-3">
                                                 <input id="zinssatz" type="number" className="form-control" placeholder={this.state.zinssatz} aria-label="Amount (to the nearest dollar)" />
                                                 <div className="input-group-append">
                                                     <span className="input-group-text">%</span>
                                                 </div>
                                             </div>
-
+ 
                                             <hr />
 
-                                            <FormLabel className="expertLabel">Marktrisikoprämie:</FormLabel>
+                                            Marktrisikoprämie:
                                             <div className="input-group mb-3">
                                                 <input id="mrp" type="number" className="form-control" placeholder={this.state.mrp} aria-label="Amount (to the nearest dollar)" />
                                                 <div className="input-group-append">
@@ -263,9 +268,6 @@ export class Selection extends React.Component {
                         <p>Methode der Berechnung</p>
 
                         <ButtonGroup vertical >
-                            <Button id="ew" disabled={this.disableButton} variant="light">
-                                <Link onClick={this.handleClick} className="buttonlink" to="/result">Ertragswertverfahren</Link>
-                            </Button>
                             <Button id="dcf" disabled={this.disableButton} variant="light">
                                 <Link onClick={this.handleClick} className="buttonlink" to="/result">Discounted Cashflow-Verfahren</Link>
                             </Button>
