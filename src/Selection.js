@@ -222,10 +222,6 @@ export class Selection extends React.Component {
         if(feldDatepicker !== null){
             feldDatepicker.value = this.state.factors.quartal;
         }
-
-        console.log(this.state.factors.mrp);
-        console.log(this.state.factors.zinssatz);
-        console.log(this.state.factors.quartal);
     }
 
     render() {
