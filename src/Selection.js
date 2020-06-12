@@ -67,15 +67,20 @@ const Styles = styled.div`
 export class Selection extends React.Component {
     constructor(props) {
         super(props);
-        this.disableButton = true;
-        this.currentId = 0;
+
         this.changeValue = this.changeValue.bind(this);
         this.dateValue = this.dateChange.bind(this);
+
+        this.disableButton = true;
+        this.currentId = 0;
+
         this.state = {
+            companies: [],
+            methods: [],
+            factors: [],
             startDate: new Date(),
             zinssatz: 0,
             mrp: 0,
-            testactions: [],
             actions:
                 [{ id: "1", key: "1", name: "Adidas" },
                 { id: "2", key: "2", name: "Allianz" },
@@ -113,29 +118,26 @@ export class Selection extends React.Component {
     }
 
     componentDidMount() {
-        this.getCompanies()
+        this.getCompanies();
+        this.getMethods();
     }
 
     getCompanies() {
-        console.log("getCompanies");
         fetch('https://sumz-backend.herokuapp.com/companies').then(
             response => {
-                console.log("vor resp Json");
                 response.json().then(data => {
-                    console.log("vor this state");
-                    this.setState({ testactions: data })
-                    console.log(this.state);
+                    this.setState({ companies: data });
                 })
             });
-
-
     }
 
     async getMethods() {
-        const response = await fetch('https://sumz-backend.herokuapp.com/methods');
-        const myJson = await response.json();
-
-        console.log(myJson);
+        fetch('https://sumz-backend.herokuapp.com/methods').then(
+            response => {
+                response.json().then(data => {
+                    this.setState({ methods: data });
+                })
+            });
     }
 
     async getFactors() {
@@ -221,8 +223,8 @@ export class Selection extends React.Component {
                                     </div>
                                 </h6>
                                 <div className="dropdown-divider"></div>
-                                {this.state.testactions.map(e => {
-                                    return <DropdownItem className="unternehmenItems" id={e.short_name} key={e.short_name} onClick={this.changeValue}>{e.long_name}</DropdownItem> //id={e.id}
+                                {this.state.companies.map(e => {
+                                    return <DropdownItem className="unternehmenItems" id={e.short_name} key={e.short_name} onClick={this.changeValue}>{e.long_name}</DropdownItem>
                                 })}
                             </DropdownMenu>
                         </Dropdown>
@@ -280,10 +282,16 @@ export class Selection extends React.Component {
                         <p>Methode der Berechnung</p>
 
                         <ButtonGroup vertical >
+                            {/*this.state.methods.map(e => {
+                                return <Button id={e.name} disabled={this.disableButton} variant="light">
+                                <Link onClick={this.handleClick} className="buttonlink" to="/result">{e.description}</Link>
+                            </Button>
+                            })*/}
                             <Button id="dcf" disabled={this.disableButton} variant="light">
                                 <Link onClick={this.handleClick} className="buttonlink" to="/result">Discounted Cashflow-Verfahren</Link>
                             </Button>
                         </ButtonGroup>
+                        <br />
                     </div>
                 </Layout>
             </Styles >
