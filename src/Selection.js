@@ -65,9 +65,11 @@ const Styles = styled.div`
 `;
 
 export class Selection extends React.Component {
+    componentDidMount() {
+        this.getCompanies()
+    }
     constructor(props) {
         super(props);
-
         this.disableButton = true;
         this.currentId = 0;
         this.changeValue = this.changeValue.bind(this);
@@ -76,6 +78,7 @@ export class Selection extends React.Component {
             startDate: new Date(),
             zinssatz: 0,
             mrp: 0,
+            testactions: [],
             actions:
                 [{ id: "1", key: "1", name: "Adidas" },
                 { id: "2", key: "2", name: "Allianz" },
@@ -112,24 +115,32 @@ export class Selection extends React.Component {
         };
     }
 
-    async getCompanies() {
-        const response = await fetch('https://sumz-backend.herokuapp.com/companies');
-        const myJson = await response.json();
+    getCompanies() {
+        console.log("getCompanies");
+        fetch('https://sumz-backend.herokuapp.com/companies').then(
+            response => {
+                console.log("vor resp Json");
+                response.json().then(data => {
+                    console.log("vor this state");
+                    this.setState({testactions: data})
+                    console.log(this.state);
+                })
+            });
 
-        console.log(myJson);
+
     }
 
     async getMethods() {
         const response = await fetch('https://sumz-backend.herokuapp.com/methods');
         const myJson = await response.json();
-       
+
         console.log(myJson);
     }
 
     async getFactors() {
         const response = await fetch('');
         const myJson = await response.json();
-       
+
         console.log(myJson);
     }
 
@@ -209,8 +220,8 @@ export class Selection extends React.Component {
                                     </div>
                                 </h6>
                                 <div className="dropdown-divider"></div>
-                                {this.state.actions.map(e => {
-                                    return <DropdownItem className="unternehmenItems" id={e.id} key={e.id} onClick={this.changeValue}>{e.name}</DropdownItem>
+                                {this.state.testactions.map(e => {
+                                    return <DropdownItem className="unternehmenItems" key={e.short_name} onClick={this.changeValue}>{e.long_name}</DropdownItem> //id={e.id}
                                 })}
                             </DropdownMenu>
                         </Dropdown>
@@ -229,7 +240,7 @@ export class Selection extends React.Component {
                                             Finanzdaten bis:
                                             <br />
                                             <div className="datepicker">
-                                                <DatePicker picker="quarter" size="large" placeholder="Quartal"/>
+                                                <DatePicker picker="quarter" size="large" placeholder="Quartal" />
                                             </div>
 
                                             <hr />
@@ -241,7 +252,7 @@ export class Selection extends React.Component {
                                                     <span className="input-group-text">%</span>
                                                 </div>
                                             </div>
- 
+
                                             <hr />
 
                                             Marktrisikoprämie:
