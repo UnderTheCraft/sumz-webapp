@@ -1,5 +1,6 @@
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
+import moment from 'moment';
 import React from 'react';
 import { Accordion, AccordionCollapse, AccordionToggle, Button, ButtonGroup, Card, Dropdown, DropdownItem, FormGroup } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
@@ -69,7 +70,8 @@ export class Selection extends React.Component {
         super(props);
 
         this.changeValue = this.changeValue.bind(this);
-        this.dateValue = this.dateChange.bind(this);
+        this.saveFactors = this.saveFactors.bind(this);
+        this.resetExperteneinstieg = this.resetExperteneinstieg.bind(this);
 
         this.disableButton = true;
         this.currentId = 0;
@@ -77,10 +79,9 @@ export class Selection extends React.Component {
         this.state = {
             companies: [],
             methods: [],
-            factors: [],
-            startDate: new Date(),
-            zinssatz: 0,
-            mrp: 0,
+            factors: { mrp: 0, zinssatz: 0, quartal: null },
+            dropDownValue: 'Wähle ein Unternehmen ...',
+            dropdownOpen: false,
             actions:
                 [{ id: "1", key: "1", name: "Adidas" },
                 { id: "2", key: "2", name: "Allianz" },
@@ -111,9 +112,7 @@ export class Selection extends React.Component {
                 { id: "27", key: "27", name: "Siemens" },
                 { id: "28", key: "28", name: "Volkswagen" },
                 { id: "29", key: "29", name: "Vonovia" },
-                { id: "30", key: "30", name: "Wirecard" }],
-            dropDownValue: 'Wähle ein Unternehmen ...',
-            dropdownOpen: false
+                { id: "30", key: "30", name: "Wirecard" }]
         };
     }
 
@@ -131,7 +130,7 @@ export class Selection extends React.Component {
             });
     }
 
-    async getMethods() {
+    getMethods() {
         fetch('https://sumz-backend.herokuapp.com/methods').then(
             response => {
                 response.json().then(data => {
@@ -140,11 +139,13 @@ export class Selection extends React.Component {
             });
     }
 
-    async getFactors() {
-        const response = await fetch('');
-        const myJson = await response.json();
-
-        console.log(myJson);
+    getFactors() {
+        fetch('').then(
+            response => {
+                response.json().then(data => {
+                    this.setState({ methods: data });
+                })
+            });
     }
 
     changeValue(e) {
@@ -194,15 +195,37 @@ export class Selection extends React.Component {
         }
     }
 
-    dateChange = date => {
-        this.setState({
-            startDate: date
-        });
-    };
-
     saveFactors() {
         var mrpVal = document.getElementById("mrp").value;
         var zinssatzVal = document.getElementById("zinssatz").value;
+        var quartalVal = document.getElementById("datepicker").value;
+
+        this.setState({ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } });
+    }
+
+    disabledDate(current) {
+        // .subtract(3, 'months'), weil immer vom aktuellen Quartal ausgegangen wird. D.h. April ist Q2, es darf aber nur bis Q1 berechnet werden
+        return current && current > moment().endOf('day').subtract(3, 'months');
+    }
+
+    resetExperteneinstieg(){
+        var feldMrp = document.getElementById("mrp");
+        var feldZinssatz = document.getElementById("zinssatz");
+        var feldDatepicker = document.getElementById("datepicker");
+
+        if(feldMrp !== null){
+            feldMrp.value = this.state.factors.mrp;
+        }
+        if(feldZinssatz != null){
+            feldZinssatz.value = this.state.factors.zinssatz;
+        }
+        if(feldDatepicker !== null){
+            feldDatepicker.value = this.state.factors.quartal;
+        }
+
+        console.log(this.state.factors.mrp);
+        console.log(this.state.factors.zinssatz);
+        console.log(this.state.factors.quartal);
     }
 
     render() {
@@ -233,7 +256,7 @@ export class Selection extends React.Component {
                         <Accordion defaultActiveKey="0">
                             <Card border="white">
                                 <Card.Header>
-                                    <AccordionToggle as={Button} variant="link" eventKey="1">
+                                    <AccordionToggle as={Button} onClick={this.resetExperteneinstieg} variant="link" eventKey="1">
                                         Experteneinstieg
                                     </AccordionToggle>
                                 </Card.Header>
@@ -243,14 +266,14 @@ export class Selection extends React.Component {
                                             Finanzdaten bis:
                                             <br />
                                             <div className="datepicker">
-                                                <DatePicker picker="quarter" size="large" placeholder="Quartal" />
+                                                <DatePicker id="datepicker" picker="quarter" size="large" placeholder="Quartal" disabledDate={this.disabledDate} />
                                             </div>
 
                                             <hr />
 
                                             Risikofreier Zinssatz:
                                             <div className="input-group mb-3">
-                                                <input id="zinssatz" type="number" className="form-control" placeholder={this.state.zinssatz} aria-label="Amount (to the nearest dollar)" />
+                                                <input id="zinssatz" type="number" className="form-control" placeholder={this.state.factors.zinssatz} aria-label="Amount (to the nearest dollar)" />
                                                 <div className="input-group-append">
                                                     <span className="input-group-text">%</span>
                                                 </div>
@@ -260,7 +283,7 @@ export class Selection extends React.Component {
 
                                             Marktrisikoprämie:
                                             <div className="input-group mb-3">
-                                                <input id="mrp" type="number" className="form-control" placeholder={this.state.mrp} aria-label="Amount (to the nearest dollar)" />
+                                                <input id="mrp" type="number" className="form-control" placeholder={this.state.factors.mrp} aria-label="Amount (to the nearest dollar)" />
                                                 <div className="input-group-append">
                                                     <span className="input-group-text">%</span>
                                                 </div>
