@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Layout } from './components/Layout';
-import { Jumbotron } from './components/Jumbotron';
-import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import akitendiagramm from './assets/dhLogoImage.png';
+import { Jumbotron } from './components/Jumbotron';
+import { Layout } from './components/Layout';
 
 const Styles = styled.div`
 .buttonlink {
@@ -66,6 +66,7 @@ export class Result extends React.Component {
                         <Button variant="danger">
                             <Link className="buttonlink" to="/selection">Neue Berechung</Link>
                         </Button>
+                        <br />
                     </div>
                 </Layout>
             </Styles >
