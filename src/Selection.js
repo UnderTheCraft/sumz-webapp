@@ -1,9 +1,9 @@
-import React from 'react';
-import { Accordion, AccordionCollapse, AccordionToggle, Button, ButtonGroup, Card, Dropdown, DropdownItem, FormGroup, FormLabel } from 'react-bootstrap';
-import DropdownMenu from 'react-bootstrap/DropdownMenu';
-import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
+import React from 'react';
+import { Accordion, AccordionCollapse, AccordionToggle, Button, ButtonGroup, Card, Dropdown, DropdownItem, FormGroup } from 'react-bootstrap';
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
+import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Jumbotron } from './components/Jumbotron';
@@ -65,9 +65,6 @@ const Styles = styled.div`
 `;
 
 export class Selection extends React.Component {
-    componentDidMount() {
-        this.getCompanies()
-    }
     constructor(props) {
         super(props);
         this.disableButton = true;
@@ -115,6 +112,10 @@ export class Selection extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.getCompanies()
+    }
+
     getCompanies() {
         console.log("getCompanies");
         fetch('https://sumz-backend.herokuapp.com/companies').then(
@@ -122,7 +123,7 @@ export class Selection extends React.Component {
                 console.log("vor resp Json");
                 response.json().then(data => {
                     console.log("vor this state");
-                    this.setState({testactions: data})
+                    this.setState({ testactions: data })
                     console.log(this.state);
                 })
             });
@@ -221,7 +222,7 @@ export class Selection extends React.Component {
                                 </h6>
                                 <div className="dropdown-divider"></div>
                                 {this.state.testactions.map(e => {
-                                    return <DropdownItem className="unternehmenItems" key={e.short_name} onClick={this.changeValue}>{e.long_name}</DropdownItem> //id={e.id}
+                                    return <DropdownItem className="unternehmenItems" id={e.short_name} key={e.short_name} onClick={this.changeValue}>{e.long_name}</DropdownItem> //id={e.id}
                                 })}
                             </DropdownMenu>
                         </Dropdown>
