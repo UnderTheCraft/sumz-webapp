@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { Jumbotron } from './components/Jumbotron';
 import { Layout } from './components/Layout';
 
-
 const Styles = styled.div`
 .buttonlink {
     color: #222;
@@ -200,7 +199,9 @@ export class Selection extends React.Component {
         var zinssatzVal = document.getElementById("zinssatz").value;
         var quartalVal = document.getElementById("datepicker").value;
 
-        this.setState({ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } });
+        this.setState({ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } }, () => {
+            this.resetExperteneinstieg();
+        });
     }
 
     disabledDate(current) {
@@ -208,20 +209,28 @@ export class Selection extends React.Component {
         return current && current > moment().endOf('day').subtract(3, 'months');
     }
 
-    resetExperteneinstieg(){
+    resetExperteneinstieg() {
         var feldMrp = document.getElementById("mrp");
         var feldZinssatz = document.getElementById("zinssatz");
         var feldDatepicker = document.getElementById("datepicker");
 
-        if(feldMrp !== null){
-            feldMrp.value = this.state.factors.mrp;
+        if (feldMrp !== null) {
+            feldMrp.value = parseFloat(this.state.factors.mrp.valueOf());
         }
-        if(feldZinssatz != null){
-            feldZinssatz.value = this.state.factors.zinssatz;
+        if (feldZinssatz != null) {
+            feldZinssatz.value = parseFloat(this.state.factors.zinssatz);
         }
-        if(feldDatepicker !== null){
+        if (feldDatepicker !== null) {
             feldDatepicker.value = this.state.factors.quartal;
         }
+    }
+
+    removeZinssatzValue() {
+        document.getElementById("zinssatz").value = '';
+    }
+
+    removeMrpValue() {
+        document.getElementById("mrp").value = '';
     }
 
     render() {
@@ -252,7 +261,7 @@ export class Selection extends React.Component {
                         <Accordion defaultActiveKey="0">
                             <Card border="white">
                                 <Card.Header>
-                                    <AccordionToggle as={Button} onClick={this.resetExperteneinstieg} variant="link" eventKey="1">
+                                    <AccordionToggle as={Button} data-toggle="collapse" onClick={this.resetExperteneinstieg} variant="link" eventKey="1">
                                         Experteneinstieg
                                     </AccordionToggle>
                                 </Card.Header>
@@ -269,7 +278,7 @@ export class Selection extends React.Component {
 
                                             Risikofreier Zinssatz:
                                             <div className="input-group mb-3">
-                                                <input id="zinssatz" type="number" className="form-control" placeholder={this.state.factors.zinssatz} aria-label="Amount (to the nearest dollar)" />
+                                                <input id="zinssatz" type="number" onFocus={this.removeZinssatzValue} className="form-control" placeholder={this.state.factors.zinssatz} aria-label="Amount (to the nearest dollar)" />
                                                 <div className="input-group-append">
                                                     <span className="input-group-text">%</span>
                                                 </div>
@@ -279,7 +288,7 @@ export class Selection extends React.Component {
 
                                             Marktrisikoprämie:
                                             <div className="input-group mb-3">
-                                                <input id="mrp" type="number" className="form-control" placeholder={this.state.factors.mrp} aria-label="Amount (to the nearest dollar)" />
+                                                <input id="mrp" type="number" onFocus={this.removeMrpValue} className="form-control" placeholder={this.state.factors.mrp} aria-label="Amount (to the nearest dollar)" />
                                                 <div className="input-group-append">
                                                     <span className="input-group-text">%</span>
                                                 </div>
@@ -287,9 +296,9 @@ export class Selection extends React.Component {
 
                                             <hr />
 
-                                            <Button variant="danger" type="submit" onClick={this.saveFactors} block>
+                                            <AccordionToggle as={Button} data-toggle="collapse" type="submit" onClick={this.saveFactors} variant="danger" eventKey="1" block>
                                                 Alles Übernehmen
-                                            </Button>
+                                             </AccordionToggle>
                                         </FormGroup>
                                     </Card.Body>
                                 </AccordionCollapse>
@@ -301,14 +310,11 @@ export class Selection extends React.Component {
                         <p>Methode der Berechnung</p>
 
                         <ButtonGroup vertical >
-                            {/*this.state.methods.map(e => {
-                                return <Button id={e.name} disabled={this.disableButton} variant="light">
-                                <Link onClick={this.handleClick} className="buttonlink" to="/result">{e.description}</Link>
-                            </Button>
-                            })*/}
-                            <Button id="dcf" disabled={this.disableButton} variant="light">
-                                <Link onClick={this.handleClick} className="buttonlink" to="/result">Discounted Cashflow-Verfahren</Link>
-                            </Button>
+                            {this.state.methods.map(e => {
+                                return <Button key={e.method} id={e.method} disabled={this.disableButton} variant="light">
+                                    <Link key={e.method} onClick={this.handleClick} className="buttonlink" to="/result">{e.description}</Link>
+                                </Button>
+                            })}
                         </ButtonGroup>
                         <br />
                     </div>
