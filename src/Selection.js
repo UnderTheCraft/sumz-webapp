@@ -168,6 +168,8 @@ export class Selection extends React.Component {
         var zinssatzVal = document.getElementById("zinssatz").value;
         var quartalVal = document.getElementById("datepicker").value;
 
+        // TODO: handle save wenn "backspace" gedrückt
+
         this.setState({ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } }, () => {
             this.resetExperteneinstieg();
         });
@@ -267,7 +269,7 @@ export class Selection extends React.Component {
 
                                             <AccordionToggle as={Button} data-toggle="collapse" type="submit" onClick={this.saveFactors} variant="danger" eventKey="1" block>
                                                 Alles Übernehmen
-                                             </AccordionToggle>
+                                            </AccordionToggle>
                                         </FormGroup>
                                     </Card.Body>
                                 </AccordionCollapse>
