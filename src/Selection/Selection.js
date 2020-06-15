@@ -295,7 +295,7 @@ export class Selection extends React.Component {
 										<Link
 											key={e.method}
 											onClick={this.handleClick}
-											className="buttonlink"
+											className="buttonlinkBlack"
 											to="/result"
 										>
 											{e.description}
