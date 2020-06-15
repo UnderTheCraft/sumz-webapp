@@ -79,7 +79,7 @@ export class Selection extends React.Component {
             companies: [],
             methods: [],
             factors: { mrp: 0, zinssatz: 0, quartal: null },
-            dropDownValue: 'Wähle ein Unternehmen ...',
+            dropDownValue: { company: 'Wähle ein Unternehmen ...', link: null },
             dropdownOpen: false,
         };
     }
@@ -122,9 +122,9 @@ export class Selection extends React.Component {
             var currentItem = document.getElementById(this.currentId);
             currentItem.classList.remove("active");
         }
-
-        this.setState({ dropDownValue: e.currentTarget.textContent });
+        
         let id = e.currentTarget.getAttribute("id");
+        this.setState({ dropDownValue: {company: e.currentTarget.textContent, link: id}});
 
         //neues Item mit active setzen
         var element = document.getElementById(id);
@@ -142,8 +142,9 @@ export class Selection extends React.Component {
             e.preventDefault()
         }
 
-        sessionStorage.setItem('unternehmen', this.state.dropDownValue);
+        sessionStorage.setItem('unternehmen', this.state.dropDownValue.company);
         sessionStorage.setItem('methode', e.currentTarget.textContent);
+        sessionStorage.setItem('link', this.state.dropDownValue.link);
     }
 
     searchDropdownItem() {
@@ -218,7 +219,7 @@ export class Selection extends React.Component {
                         30 DAX Unternehmen
                         <Dropdown id="dropdown" alignRight className="dropdown">
                             <DropdownToggle variant="danger" id="dropdown-basic">
-                                {this.state.dropDownValue}
+                                {this.state.dropDownValue.company}
                             </DropdownToggle>
                             <DropdownMenu className="richtung">
                                 <h6 className="dropdown-header">
