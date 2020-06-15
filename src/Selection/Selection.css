@@ -1,0 +1,51 @@
+.buttonlink {
+	color: #222 !important;
+	text-decoration: none;
+}
+
+.btn-link {
+	margin-bottom: 40px;
+}
+
+.dropdown-menu {
+	max-height: 25em;
+	overflow: auto;
+}
+
+#dropdown-basic {
+	min-width: 236px !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+	background-color: #dc3545;
+}
+
+@media (max-height: 900px) {
+	.richtung {
+		top: auto !important;
+		bottom: 0px !important;
+		max-height: 15em !important;
+		transform: translate3d(0px, -40px, 0px) !important;
+	}
+
+	.dropdown-toggle::after {
+		transform: rotate(180deg) !important;
+	}
+}
+
+.accordion > .card > .card-header {
+	min-width: 230px;
+	text-align: center;
+	max-height: 38px;
+	padding: 0px;
+	background-color: white;
+}
+
+.card-body {
+	border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.form-control {
+	max-width: 160px;
+}

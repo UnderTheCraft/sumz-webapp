@@ -1,64 +1,29 @@
-import React from 'react';
-//import Navbar from 'react-bootstrap/Navbar'
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Home } from './Home/Home';
 import { About } from './About/About';
-import { Selection } from './Selection/Selection';
-import { Result } from './Result/Result';
-import { NoMatch } from './NoMatch/NoMatch';
+import './App.css';
 import { Contact } from './Contact/Contact';
+import { Home } from './Home/Home';
+import { NoMatch } from './NoMatch/NoMatch';
+import { Result } from './Result/Result';
+import { Selection } from './Selection/Selection';
 import { NavigationBar } from './_components/NavigationBar/NavigationBar';
 
-
-/*function Test() {
-  return (
-    <div className="App">
-
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">
-          <img
-            alt="SUMZ"
-            src="https://octodex.github.com/images/Fintechtocat.png"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{' '}
-			  SUMZ Unternehmensbewertung
-			</Navbar.Brand>
-      </Navbar>
-
-      <header className="App-header">
-        <h1>This is a fancy test app!</h1>
-        <img src="https://octodex.github.com/images/Fintechtocat.png" className="App-logo" alt="logo" />
-        <p>Edit <code>src/App.js</code> and save to reload.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}*/
-
 function App() {
-  return (
-    <>
-      <NavigationBar></NavigationBar>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/selection" component={Selection} />
-          <Route path="/result" component={Result} />
-          <Route component={NoMatch} />
-        </Switch>
-    </>
-  );
+	return (
+		<>
+			<NavigationBar></NavigationBar>
+			<Switch>
+				<Route exact path="/" component={Home} />
+				<Route path="/about" component={About} />
+				<Route path="/contact" component={Contact} />
+				<Route path="/selection" component={Selection} />
+				<Route path="/result" component={Result} />
+				<Route component={NoMatch} />
+			</Switch>
+		</>
+	);
 }
 
 export default App;

@@ -1,42 +1,12 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import styled from 'styled-components';
 import { NavLink } from "react-router-dom";
-
-const Styles = styled.div`
-.navbar {
-    background-color: #222;
-
-}
-
-.navbar-brand, .navbar-nav, .nav-link {
-    color: #bbb !important;
-
-    &:hover{
-        color: white !important;
-    }
-}
-
-.nav-item > .active {
-    color: white !important;
-}
-
-.navigationlink {
-    color: #bbb;
-    text-decoration: none;
-    margin-right: 1rem;
-
-    &:hover{
-        color: white;
-    }
-}
-`;
+import './NavigationBar.css';
 
 export class NavigationBar extends React.Component{
 
     render(){
         return(
-            <Styles>
             <Navbar expand="lg" bg="dark" className="navbar-dark">
                 <Navbar.Brand href="/">SUMZ Unternehmensbewertung</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
@@ -51,7 +21,6 @@ export class NavigationBar extends React.Component{
                     </Nav>
                 </Navbar.Collapse >
             </Navbar >
-        </Styles >
         )
     }
 }
