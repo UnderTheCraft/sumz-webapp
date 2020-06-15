@@ -168,7 +168,12 @@ export class Selection extends React.Component {
         var zinssatzVal = document.getElementById("zinssatz").value;
         var quartalVal = document.getElementById("datepicker").value;
 
-        // TODO: handle save wenn "backspace" gedrückt
+        if (mrpVal === '') {
+            mrpVal = this.state.factors.mrp;
+        }
+        if (zinssatzVal === '') {
+            zinssatzVal = this.state.factors.zinssatz;
+        }
 
         this.setState({ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } }, () => {
             this.resetExperteneinstieg();
