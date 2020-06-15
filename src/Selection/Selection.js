@@ -34,7 +34,7 @@ export class Selection extends React.Component {
 		this.state = {
 			companies: [],
 			methods: [],
-			factors: { mrp: 0, zinssatz: 0, quartal: null },
+			factors: { mrp: 0, zinssatz: 0, quartal: '' },
 			dropDownValue: { company: 'Wähle ein Unternehmen ...', link: null },
 			dropdownOpen: false,
 		};
@@ -43,6 +43,7 @@ export class Selection extends React.Component {
 	componentDidMount() {
 		this.getCompanies();
 		this.getMethods();
+		this.getFactors();
 	}
 
 	getCompanies() {
@@ -62,11 +63,20 @@ export class Selection extends React.Component {
 	}
 
 	getFactors() {
-		fetch('').then((response) => {
-			response.json().then((data) => {
-				this.setState({ methods: data });
-			});
-		});
+		fetch('https://sumz-backend.herokuapp.com/getDefaultExpertValues').then(
+			(response) => {
+				response.json().then((data) => {
+					console.log(data);
+					this.setState({
+						factors: {
+							mrp: data.market_risk_premium,
+							zinssatz: data.risk_free_interest,
+							quartal: '2019-Q4',
+						},
+					});
+				});
+			}
+		);
 	}
 
 	changeValue(e) {
@@ -232,6 +242,8 @@ export class Selection extends React.Component {
 													size="large"
 													placeholder="Quartal"
 													disabledDate={this.disabledDate}
+													defaultValue={moment('2019/12/13', 'YYYY/MM/DD')}
+													format="YYYY-[Q]Q"
 												/>
 											</div>
 											<hr />
@@ -242,7 +254,7 @@ export class Selection extends React.Component {
 													type="number"
 													onFocus={this.removeZinssatzValue}
 													className="form-control"
-													placeholder={this.state.factors.zinssatz}
+													placeholder={parseFloat(this.state.factors.zinssatz)}
 													aria-label="Amount (to the nearest dollar)"
 												/>
 												<div className="input-group-append">
@@ -257,7 +269,7 @@ export class Selection extends React.Component {
 													type="number"
 													onFocus={this.removeMrpValue}
 													className="form-control"
-													placeholder={this.state.factors.mrp}
+													placeholder={parseFloat(this.state.factors.mrp)}
 													aria-label="Amount (to the nearest dollar)"
 												/>
 												<div className="input-group-append">
