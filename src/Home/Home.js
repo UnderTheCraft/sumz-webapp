@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Jumbotron } from './components/Jumbotron';
-import { Layout } from './components/Layout';
+import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
+import { Layout } from '../_components/Layout/Layout';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 

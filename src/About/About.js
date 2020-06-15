@@ -1,12 +1,12 @@
 import React from 'react';
-import { Layout } from './components/Layout';
-import './App.css';
+import { Layout } from '../_components/Layout/Layout';
+import '../App.css';
 
-export const Contact = () => (
+export const About = () => (
     <div>
         <Layout>
             <div className="App-body">
-                <h1>Kontakt</h1>
+                <h1>Übersicht</h1>
             </div>
         </Layout>
     </div>

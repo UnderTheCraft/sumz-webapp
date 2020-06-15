@@ -2,9 +2,9 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import akitendiagramm from './assets/dhLogoImage.png';
-import { Jumbotron } from './components/Jumbotron';
-import { Layout } from './components/Layout';
+import akitendiagramm from '../_assets/dhLogoImage.png';
+import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
+import { Layout } from '../_components/Layout/Layout';
 
 const Styles = styled.div`
 .buttonlink {

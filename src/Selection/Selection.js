@@ -7,8 +7,8 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Jumbotron } from './components/Jumbotron';
-import { Layout } from './components/Layout';
+import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
+import { Layout } from '../_components/Layout/Layout';
 
 const Styles = styled.div`
 .buttonlink {

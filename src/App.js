@@ -3,13 +3,13 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
-import { Home } from './Home';
-import { About } from './About';
-import { Selection } from './Selection';
-import { Result } from './Result';
-import { NoMatch } from './NoMatch';
-import { Contact } from './Contact';
-import { NavigationBar } from './components/NavigationBar';
+import { Home } from './Home/Home';
+import { About } from './About/About';
+import { Selection } from './Selection/Selection';
+import { Result } from './Result/Result';
+import { NoMatch } from './NoMatch/NoMatch';
+import { Contact } from './Contact/Contact';
+import { NavigationBar } from './_components/NavigationBar/NavigationBar';
 
 
 /*function Test() {
