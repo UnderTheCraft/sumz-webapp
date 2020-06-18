@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
 import './Selection.css';
+import Spinner from 'react-bootstrap/Spinner';
 
 export class Selection extends React.Component {
 	constructor(props) {
@@ -29,6 +30,7 @@ export class Selection extends React.Component {
 		this.resetExperteneinstieg = this.resetExperteneinstieg.bind(this);
 
 		this.disableButton = true;
+
 		this.currentId = 0;
 
 		this.state = {
@@ -37,6 +39,7 @@ export class Selection extends React.Component {
 			factors: { mrp: 0, zinssatz: 0, quartal: '' },
 			dropDownValue: { company: 'Wähle ein Unternehmen ...', link: null },
 			dropdownOpen: false,
+			disableButtonLoading: true,
 		};
 	}
 
@@ -49,7 +52,11 @@ export class Selection extends React.Component {
 	getCompanies() {
 		fetch('https://sumz-backend.herokuapp.com/companies').then((response) => {
 			response.json().then((data) => {
-				this.setState({ companies: data });
+				this.setState({ companies: data }, () => {
+					this.setState({ disableButtonLoading: false });
+					document.getElementById('loading').style.display = 'none';
+					document.getElementById('flaeche').style.webkitFilter = 'none';
+				});
 			});
 		});
 	}
@@ -101,6 +108,12 @@ export class Selection extends React.Component {
 			this.disableButton = false;
 		}
 	}
+
+	disableLoading = (e) => {
+		if (this.state.disableButtonLoading) {
+			e.preventDefault();
+		}
+	};
 
 	handleClick = (e) => {
 		if (this.disableButton) {
@@ -183,140 +196,153 @@ export class Selection extends React.Component {
 			<>
 				<Jumbotron></Jumbotron>
 				<Layout>
-					<div className="App-body">
-						30 DAX Unternehmen
-						<Dropdown id="dropdown" alignRight className="dropdown">
-							<DropdownToggle variant="danger" id="dropdown-basic">
-								{this.state.dropDownValue.company}
-							</DropdownToggle>
-							<DropdownMenu className="richtung">
-								<h6 className="dropdown-header">
-									<div className="input-group">
-										<input
-											className="form-control"
-											type="text"
-											placeholder="Suche..."
-											id="searchInput"
-											onKeyUp={this.searchDropdownItem}
-										/>
-									</div>
-								</h6>
-								<div className="dropdown-divider"></div>
-								{this.state.companies.map((e) => {
-									return (
-										<DropdownItem
-											className="unternehmenItems"
-											id={e.short_name}
-											key={e.short_name}
-											onClick={this.changeValue}
+					<div id="loading" className="loading">
+						<Spinner animation="border" variant="danger" />
+					</div>
+					<div id="flaeche" className="flaeche">
+						<div className="App-body">
+							30 DAX Unternehmen
+							<Dropdown id="dropdown" alignRight className="dropdown">
+								<DropdownToggle
+									variant="danger"
+									id="dropdown-basic"
+									disabled={this.state.disableButtonLoading}
+								>
+									{this.state.dropDownValue.company}
+								</DropdownToggle>
+								<DropdownMenu className="richtung">
+									<h6 className="dropdown-header">
+										<div className="input-group">
+											<input
+												className="form-control"
+												type="text"
+												placeholder="Suche..."
+												id="searchInput"
+												onKeyUp={this.searchDropdownItem}
+											/>
+										</div>
+									</h6>
+									<div className="dropdown-divider"></div>
+									{this.state.companies.map((e) => {
+										return (
+											<DropdownItem
+												className="unternehmenItems"
+												id={e.short_name}
+												key={e.short_name}
+												onClick={this.changeValue}
+											>
+												{e.long_name}
+											</DropdownItem>
+										);
+									})}
+								</DropdownMenu>
+							</Dropdown>
+							<br />
+							<Accordion defaultActiveKey="0">
+								<Card border="white">
+									<Card.Header>
+										<AccordionToggle
+											as={Button}
+											disabled={this.state.disableButtonLoading}
+											data-toggle="collapse"
+											onClick={this.resetExperteneinstieg}
+											variant="link"
+											eventKey="1"
 										>
-											{e.long_name}
-										</DropdownItem>
+											Experteneinstieg
+										</AccordionToggle>
+									</Card.Header>
+									<AccordionCollapse eventKey="1">
+										<Card.Body>
+											<FormGroup>
+												Finanzdaten bis:
+												<br />
+												<div className="datepicker">
+													<DatePicker
+														id="datepicker"
+														picker="quarter"
+														size="large"
+														placeholder="Quartal"
+														disabledDate={this.disabledDate}
+														defaultValue={moment('2019/12/13', 'YYYY/MM/DD')}
+														format="YYYY-[Q]Q"
+													/>
+												</div>
+												<hr />
+												Risikofreier Zinssatz:
+												<div className="input-group mb-3">
+													<input
+														id="zinssatz"
+														type="number"
+														onFocus={this.removeZinssatzValue}
+														className="form-control"
+														placeholder={parseFloat(
+															this.state.factors.zinssatz
+														)}
+														aria-label="Amount (to the nearest dollar)"
+													/>
+													<div className="input-group-append">
+														<span className="input-group-text">%</span>
+													</div>
+												</div>
+												<hr />
+												Marktrisikoprämie:
+												<div className="input-group mb-3">
+													<input
+														id="mrp"
+														type="number"
+														onFocus={this.removeMrpValue}
+														className="form-control"
+														placeholder={parseFloat(this.state.factors.mrp)}
+														aria-label="Amount (to the nearest dollar)"
+													/>
+													<div className="input-group-append">
+														<span className="input-group-text">%</span>
+													</div>
+												</div>
+												<hr />
+												<AccordionToggle
+													as={Button}
+													disabled={this.state.disableButtonLoading}
+													data-toggle="collapse"
+													type="submit"
+													onClick={this.saveFactors}
+													variant="danger"
+													eventKey="1"
+													block
+												>
+													Alles Übernehmen
+												</AccordionToggle>
+											</FormGroup>
+										</Card.Body>
+									</AccordionCollapse>
+								</Card>
+							</Accordion>
+							<br />
+							<p>Methode der Berechnung</p>
+							<ButtonGroup vertical>
+								{this.state.methods.map((e) => {
+									return (
+										<Button
+											key={e.method}
+											id={e.method}
+											disabled={this.disableButton}
+											variant="light"
+										>
+											<Link
+												key={e.method}
+												onClick={this.handleClick}
+												className="buttonlinkBlack"
+												to="/result"
+											>
+												{e.description}
+											</Link>
+										</Button>
 									);
 								})}
-							</DropdownMenu>
-						</Dropdown>
-						<br />
-						<Accordion defaultActiveKey="0">
-							<Card border="white">
-								<Card.Header>
-									<AccordionToggle
-										as={Button}
-										data-toggle="collapse"
-										onClick={this.resetExperteneinstieg}
-										variant="link"
-										eventKey="1"
-									>
-										Experteneinstieg
-									</AccordionToggle>
-								</Card.Header>
-								<AccordionCollapse eventKey="1">
-									<Card.Body>
-										<FormGroup>
-											Finanzdaten bis:
-											<br />
-											<div className="datepicker">
-												<DatePicker
-													id="datepicker"
-													picker="quarter"
-													size="large"
-													placeholder="Quartal"
-													disabledDate={this.disabledDate}
-													defaultValue={moment('2019/12/13', 'YYYY/MM/DD')}
-													format="YYYY-[Q]Q"
-												/>
-											</div>
-											<hr />
-											Risikofreier Zinssatz:
-											<div className="input-group mb-3">
-												<input
-													id="zinssatz"
-													type="number"
-													onFocus={this.removeZinssatzValue}
-													className="form-control"
-													placeholder={parseFloat(this.state.factors.zinssatz)}
-													aria-label="Amount (to the nearest dollar)"
-												/>
-												<div className="input-group-append">
-													<span className="input-group-text">%</span>
-												</div>
-											</div>
-											<hr />
-											Marktrisikoprämie:
-											<div className="input-group mb-3">
-												<input
-													id="mrp"
-													type="number"
-													onFocus={this.removeMrpValue}
-													className="form-control"
-													placeholder={parseFloat(this.state.factors.mrp)}
-													aria-label="Amount (to the nearest dollar)"
-												/>
-												<div className="input-group-append">
-													<span className="input-group-text">%</span>
-												</div>
-											</div>
-											<hr />
-											<AccordionToggle
-												as={Button}
-												data-toggle="collapse"
-												type="submit"
-												onClick={this.saveFactors}
-												variant="danger"
-												eventKey="1"
-												block
-											>
-												Alles Übernehmen
-											</AccordionToggle>
-										</FormGroup>
-									</Card.Body>
-								</AccordionCollapse>
-							</Card>
-						</Accordion>
-						<br />
-						<p>Methode der Berechnung</p>
-						<ButtonGroup vertical>
-							{this.state.methods.map((e) => {
-								return (
-									<Button
-										key={e.method}
-										id={e.method}
-										disabled={this.disableButton}
-										variant="light"
-									>
-										<Link
-											key={e.method}
-											onClick={this.handleClick}
-											className="buttonlinkBlack"
-											to="/result"
-										>
-											{e.description}
-										</Link>
-									</Button>
-								);
-							})}
-						</ButtonGroup>
-						<br />
+							</ButtonGroup>
+							<br />
+						</div>
 					</div>
 				</Layout>
 			</>

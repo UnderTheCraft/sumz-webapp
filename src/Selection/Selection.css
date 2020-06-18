@@ -49,3 +49,11 @@
 .form-control {
 	max-width: 160px;
 }
+
+.loading {
+	text-align: center;
+}
+
+.flaeche {
+	-webkit-filter: blur(3px);
+}
