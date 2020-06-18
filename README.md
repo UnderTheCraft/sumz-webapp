@@ -13,10 +13,14 @@ Aufrufbar ist die WebApp über folgenden Link: https://github.com/UnderTheCraft/
 
 ## Befehle zum Ausführen:
 - Zum installieren der notwendigen Libs etc.
-### `npm install`
+```
+npm install
+```
 
 - Zum starten der WebApp auf http://localhost:3000/
-### `npm start`
+```
+npm start
+```
 
 
 Bei jedem Commit wird die WebApp automatisch gebaut und auf dem Heroku Server deployed!
