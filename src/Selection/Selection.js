@@ -1,3 +1,4 @@
+import { LineChartOutlined } from '@ant-design/icons';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
@@ -15,13 +16,13 @@ import {
 } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Spinner from 'react-bootstrap/Spinner';
+import Tooltip from 'react-bootstrap/Tooltip';
 import { Link } from 'react-router-dom';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
 import './Selection.css';
-import Spinner from 'react-bootstrap/Spinner';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 
 export class Selection extends React.Component {
 	constructor(props) {
@@ -341,6 +342,7 @@ export class Selection extends React.Component {
 											id={e.method}
 											disabled={this.disableButton}
 											variant="light"
+											className="selectionButton"
 										>
 											<Link
 												key={e.method}
@@ -349,6 +351,7 @@ export class Selection extends React.Component {
 												to="/result"
 											>
 												{e.description}
+												<LineChartOutlined className="selectionIcon" />
 											</Link>
 										</Button>
 									);

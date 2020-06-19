@@ -57,3 +57,12 @@
 .flaeche {
 	-webkit-filter: blur(3px);
 }
+
+.selectionButton {
+	max-height: 38px;
+}
+
+.selectionIcon {
+	margin-left: 10px;
+	vertical-align: 0.125em !important;
+}
