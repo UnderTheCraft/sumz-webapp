@@ -1,9 +1,11 @@
+import { PlayCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import '../App.css';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
+import './Home.css';
 
 export const Home = () => (
 	<>
@@ -19,9 +21,10 @@ export const Home = () => (
 					berechnet.
 				</p>
 				<br />
-				<Button className="Button-start" variant="danger">
+				<Button className="Button-start homeButton" variant="danger">
 					<NavLink className="buttonlink" to="/selection">
 						Start
+						<PlayCircleOutlined className="homeIcon" />
 					</NavLink>
 				</Button>
 			</div>
