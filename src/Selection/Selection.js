@@ -20,6 +20,8 @@ import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
 import './Selection.css';
 import Spinner from 'react-bootstrap/Spinner';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export class Selection extends React.Component {
 	constructor(props) {
@@ -255,7 +257,18 @@ export class Selection extends React.Component {
 									<AccordionCollapse eventKey="1">
 										<Card.Body>
 											<FormGroup>
-												Finanzdaten bis:
+												<OverlayTrigger
+													overlay={
+														<Tooltip id="tooltip-disabled">
+															Hier kann das Endquartal berücksichtig werden, um
+															zum Beispiel die Corona-Krise außen vor zu lassen.
+														</Tooltip>
+													}
+												>
+													<span className="d-inline-block">
+														Finanzdaten bis:
+													</span>
+												</OverlayTrigger>
 												<br />
 												<div className="datepicker">
 													<DatePicker
