@@ -1,8 +1,8 @@
-import React from 'react';
-import '../App.css';
 import { RollbackOutlined } from '@ant-design/icons';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import '../App.css';
 import './APV.css';
 
 const APV = () => (
@@ -36,7 +36,7 @@ const APV = () => (
 		<br />
 		<br />
 		<Button variant="danger" className="backButton">
-			<Link className="buttonlink" to="/result">
+			<Link className="buttonlink" to="/">
 				Startseite
 				<RollbackOutlined className="backIcon" />
 			</Link>
