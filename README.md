@@ -5,6 +5,7 @@ Aufrufbar ist die WebApp über folgenden Link: https://github.com/UnderTheCraft/
 - React: https://github.com/facebook/create-react-app
 - React-Bootstrap: https://react-bootstrap.github.io/
 - Ant Design: https://ant.design/
+- Ant Design Icons: https://ant.design/components/icon/
 - Moment.js: https://momentjs.com/
 
 ## Lokaler Start:
