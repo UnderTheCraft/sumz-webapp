@@ -2,12 +2,9 @@
 	margin-left: 20px;
 	font-size: 38px;
 	color: black;
+	vertical-align: 0 !important;
 }
 
 .infoicon:hover {
 	color: red;
-}
-
-.anticon {
-	vertical-align: 0em !important;
 }

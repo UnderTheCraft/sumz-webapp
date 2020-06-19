@@ -1,4 +1,4 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
@@ -78,6 +78,7 @@ export class Result extends React.Component {
 							<Button variant="danger">
 								<Link className="buttonlink" to="/selection">
 									Neue Berechung
+									<PlayCircleOutlined className="homeIcon" />
 								</Link>
 							</Button>
 							<Link className="infoicon" to="/about">
