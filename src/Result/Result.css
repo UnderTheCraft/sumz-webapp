@@ -1,0 +1,13 @@
+.infoicon {
+	margin-left: 20px;
+	font-size: 38px;
+	color: black;
+}
+
+.infoicon:hover {
+	color: red;
+}
+
+.anticon {
+	vertical-align: 0em !important;
+}

@@ -1,3 +1,4 @@
+import { InfoCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
@@ -5,6 +6,7 @@ import '../App.css';
 import akitendiagramm from '../_assets/dhLogoImage.png';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
+import './Result.css';
 
 export class Result extends React.Component {
 	constructor(props) {
@@ -72,11 +74,16 @@ export class Result extends React.Component {
 						<br />
 						<h1 className="left">Unsere Empfehlung: {this.state.empfehlung}</h1>
 						<br />
-						<Button variant="danger">
-							<Link className="buttonlink" to="/selection">
-								Neue Berechung
+						<div className="infoicon">
+							<Button variant="danger">
+								<Link className="buttonlink" to="/selection">
+									Neue Berechung
+								</Link>
+							</Button>
+							<Link className="infoicon" to="/about">
+								<InfoCircleOutlined className="infoicon" />
 							</Link>
-						</Button>
+						</div>
 						<br />
 					</div>
 				</Layout>
