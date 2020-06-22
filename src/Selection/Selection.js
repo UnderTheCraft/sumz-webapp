@@ -241,7 +241,7 @@ export class Selection extends React.Component {
 								</DropdownMenu>
 							</Dropdown>
 							<br />
-							<Accordion defaultActiveKey="1">
+							<Accordion defaultActiveKey="0">
 								<Card border="white">
 									<Card.Header>
 										<AccordionToggle
