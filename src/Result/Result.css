@@ -8,3 +8,8 @@
 .infoicon:hover {
 	color: red;
 }
+
+.divChart {
+	width: 100%;
+	height: 100%;
+}

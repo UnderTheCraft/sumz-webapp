@@ -3,9 +3,9 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import akitendiagramm from '../_assets/dhLogoImage.png';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
+import LineChart from '../_components/line charts/Line Chart';
 import './Result.css';
 
 export class Result extends React.Component {
@@ -64,13 +64,11 @@ export class Result extends React.Component {
 						</p>
 						<br />
 						<h1 className="left">Aktienkurs</h1>
-						<div className="left" id="bild">
-							<img
-								src={akitendiagramm}
-								className="aktiendiagramm"
-								alt="Aktiendiagramm"
-							/>
+
+						<div className="divChart">
+							<LineChart className="myChart" />
 						</div>
+
 						<br />
 						<h1 className="left">Unsere Empfehlung: {this.state.empfehlung}</h1>
 						<br />
