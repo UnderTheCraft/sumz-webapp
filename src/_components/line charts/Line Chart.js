@@ -23,15 +23,14 @@ class LineChart extends Component {
 
 				for (let i = 0; i < dataPointsList.length; i++) {
 					const dataPoint = dataPointsList[i];
-					console.log(new Date(dataPoint.x));
-					console.log(dataPoint.y);
+					let value = Math.round(dataPoint.y * 100) / 100;
 
-					stockdataset[i] = { x: new Date(dataPoint.x), y: dataPoint.y };
+					stockdataset[i] = { x: new Date(dataPoint.x), y: value };
 
 					// vorübergehend:
 					if (i === dataPointsList.length - 1) {
 						let uwList = new Array(1);
-						uwList[0] = { x: new Date(), y: dataPoint.y };
+						uwList[0] = { x: new Date(), y: value };
 						this.setState({ uw: uwList });
 					}
 				}
@@ -52,7 +51,7 @@ class LineChart extends Component {
 			axisY: {
 				title: 'Kurswert',
 				includeZero: false,
-				suffix: '$', // sessionStorage.getItem('waehrung')
+				suffix: ' $', // sessionStorage.getItem('waehrung')
 			},
 			data: [
 				{
@@ -60,7 +59,7 @@ class LineChart extends Component {
 					color: 'rgb(220, 53, 69)',
 					name: 'Unternehmenswert',
 					showInLegend: true,
-					toolTipContent: '{x}: {y}$',
+					toolTipContent: '{x}: {y} $',
 					xValueFormatString: 'MMM YYYY',
 					markerSize: 10,
 					dataPoints: this.state.uw,
@@ -70,7 +69,7 @@ class LineChart extends Component {
 					showInLegend: true,
 					color: '#192489',
 					type: 'line',
-					toolTipContent: '{x}: {y}$',
+					toolTipContent: '{x}: {y} $',
 					xValueFormatString: 'MMM YYYY',
 					markerSize: 10,
 					dataPoints: this.state.stockdata,
