@@ -25,7 +25,10 @@ class LineChart extends Component {
 					const dataPoint = dataPointsList[i];
 					let value = Math.round(dataPoint.y * 100) / 100;
 
-					stockdataset[i] = { x: new Date(dataPoint.x), y: value };
+					stockdataset[i] = {
+						x: new Date(dataPoint.x),
+						y: value,
+					};
 
 					// vorübergehend:
 					if (i === dataPointsList.length - 1) {
@@ -45,6 +48,7 @@ class LineChart extends Component {
 			exportEnabled: true,
 			zoomEnabled: true,
 			theme: 'light2', // "light1", "dark1", "dark2"
+			dataPointWidth: 30,
 			title: {
 				text: sessionStorage.getItem('unternehmen'),
 			},
@@ -60,8 +64,7 @@ class LineChart extends Component {
 					name: 'Unternehmenswert',
 					showInLegend: true,
 					toolTipContent: '{x}: {y} $',
-					xValueFormatString: 'MMM YYYY',
-					markerSize: 10,
+					xValueFormatString: 'DD. MMM YYYY',
 					dataPoints: this.state.uw,
 				},
 				{
@@ -70,7 +73,7 @@ class LineChart extends Component {
 					color: '#192489',
 					type: 'line',
 					toolTipContent: '{x}: {y} $',
-					xValueFormatString: 'MMM YYYY',
+					xValueFormatString: 'DD. MMM YYYY',
 					markerSize: 10,
 					dataPoints: this.state.stockdata,
 				},
