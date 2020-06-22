@@ -3,9 +3,42 @@ import CanvasJSReact from '../../_assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class LineChart extends Component {
-	//component did mount(api call)
-	//parsen zu format wie in datapoints
-	//this.state reinsetzen
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			stockdata: [],
+			uw: [],
+		};
+	}
+
+	componentDidMount() {
+		fetch(
+			'https://sumz-backend.herokuapp.com/getStockChart/' +
+				sessionStorage.getItem('link')
+		).then((response) => {
+			response.json().then((data) => {
+				let dataPointsList = data.dataPoints;
+				let stockdataset = new Array(dataPointsList.length);
+
+				for (let i = 0; i < dataPointsList.length; i++) {
+					const dataPoint = dataPointsList[i];
+					console.log(new Date(dataPoint.x));
+					console.log(dataPoint.y);
+
+					stockdataset[i] = { x: new Date(dataPoint.x), y: dataPoint.y };
+
+					// vorübergehend:
+					if (i === dataPointsList.length - 1) {
+						let uwList = new Array(1);
+						uwList[0] = { x: new Date(), y: dataPoint.y };
+						this.setState({ uw: uwList });
+					}
+				}
+				this.setState({ stockdata: stockdataset });
+			});
+		});
+	}
 
 	render() {
 		const options = {
@@ -30,7 +63,7 @@ class LineChart extends Component {
 					toolTipContent: '{x}: {y}$',
 					xValueFormatString: 'MMM YYYY',
 					markerSize: 10,
-					dataPoints: [{ x: new Date('2018- 10- 03'), y: 2000 }],
+					dataPoints: this.state.uw,
 				},
 				{
 					name: 'Aktienkurswert',
@@ -40,29 +73,7 @@ class LineChart extends Component {
 					toolTipContent: '{x}: {y}$',
 					xValueFormatString: 'MMM YYYY',
 					markerSize: 10,
-					dataPoints: [
-						{ x: new Date('2017- 01- 01'), y: 1792 },
-						{ x: new Date('2017- 02- 20'), y: 1526 },
-						{ x: new Date('2017- 03- 11'), y: 1955 },
-						{ x: new Date('2017- 04- 05'), y: 1727 },
-						{ x: new Date('2017- 05- 04'), y: 1523 },
-						{ x: new Date('2017- 06- 21'), y: 1257 },
-						{ x: new Date('2017- 07- 05'), y: 1520 },
-						{ x: new Date('2017- 08- 03'), y: 1853 },
-						{ x: new Date('2017- 09- 11'), y: 1738 },
-						{ x: new Date('2017- 10- 03'), y: 1754 },
-
-						{ x: new Date('2018- 01- 01'), y: 1792 },
-						{ x: new Date('2018- 02- 20'), y: 1526 },
-						{ x: new Date('2018- 03- 11'), y: 1955 },
-						{ x: new Date('2018- 04- 05'), y: 1727 },
-						{ x: new Date('2018- 05- 04'), y: 1523 },
-						{ x: new Date('2018- 06- 21'), y: 1257 },
-						{ x: new Date('2018- 07- 05'), y: 1520 },
-						{ x: new Date('2018- 08- 03'), y: 1853 },
-						{ x: new Date('2018- 09- 11'), y: 1738 },
-						{ x: new Date('2018- 10- 03'), y: 1754 },
-					],
+					dataPoints: this.state.stockdata,
 				},
 			],
 		};
