@@ -13,3 +13,9 @@
 	width: 100%;
 	height: 100%;
 }
+
+.canvasjs-chart-tooltip {
+	color: white !important;
+	border: 1px solid rgb(25, 36, 137);
+	background: black !important;
+}

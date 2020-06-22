@@ -78,13 +78,13 @@
 .tooltip-inner {
 	right: 25px;
 	position: relative;
-	background-color: #222;
+	background-color: #343a40;
 	color: white;
 }
 
 .tooltip .arrow::before {
 	left: 5px;
-	border-top-color: #222;
+	border-top-color: #343a40;
 }
 
 .tooltipIcon:hover {
