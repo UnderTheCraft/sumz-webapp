@@ -66,3 +66,27 @@
 	margin-left: 10px;
 	vertical-align: 0.125em !important;
 }
+
+.tooltipIcon {
+	margin-left: 10px;
+	font-size: calc(20px + (23 - 20) * ((100vw - 375px) / (1200 - 375)));
+	vertical-align: calc(
+		0.5em + (1 - 0.5) * ((100vw - 375px) / (1200 - 375))
+	) !important;
+}
+
+.tooltip-inner {
+	right: 25px;
+	position: relative;
+	background-color: #222;
+	color: white;
+}
+
+.tooltip .arrow::before {
+	left: 5px;
+	border-top-color: #222;
+}
+
+.tooltipIcon:hover {
+	color: red;
+}

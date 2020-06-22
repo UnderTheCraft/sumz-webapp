@@ -1,4 +1,4 @@
-import { LineChartOutlined } from '@ant-design/icons';
+import { LineChartOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
@@ -241,7 +241,7 @@ export class Selection extends React.Component {
 								</DropdownMenu>
 							</Dropdown>
 							<br />
-							<Accordion defaultActiveKey="0">
+							<Accordion defaultActiveKey="1">
 								<Card border="white">
 									<Card.Header>
 										<AccordionToggle
@@ -258,16 +258,12 @@ export class Selection extends React.Component {
 									<AccordionCollapse eventKey="1">
 										<Card.Body>
 											<FormGroup>
+												Finanzdaten bis:
 												<OverlayTrigger
-													overlay={
-														<Tooltip id="tooltip-disabled">
-															Hier kann das Endquartal berücksichtig werden, um
-															zum Beispiel die Corona-Krise außen vor zu lassen.
-														</Tooltip>
-													}
+													overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
 												>
 													<span className="d-inline-block">
-														Finanzdaten bis:
+														<InfoCircleOutlined className="tooltipIcon" />
 													</span>
 												</OverlayTrigger>
 												<br />
@@ -284,6 +280,13 @@ export class Selection extends React.Component {
 												</div>
 												<hr />
 												Risikofreier Zinssatz:
+												<OverlayTrigger
+													overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
+												>
+													<span className="d-inline-block">
+														<InfoCircleOutlined className="tooltipIcon" />
+													</span>
+												</OverlayTrigger>
 												<div className="input-group mb-3">
 													<input
 														id="zinssatz"
@@ -301,6 +304,13 @@ export class Selection extends React.Component {
 												</div>
 												<hr />
 												Marktrisikoprämie:
+												<OverlayTrigger
+													overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
+												>
+													<span className="d-inline-block">
+														<InfoCircleOutlined className="tooltipIcon" />
+													</span>
+												</OverlayTrigger>
 												<div className="input-group mb-3">
 													<input
 														id="mrp"
