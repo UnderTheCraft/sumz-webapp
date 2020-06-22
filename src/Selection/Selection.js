@@ -204,7 +204,7 @@ export class Selection extends React.Component {
 					</div>
 					<div id="flaeche" className="flaeche">
 						<div className="App-body">
-							30 DAX Unternehmen
+							Zu bewertendes Unternehmen
 							<Dropdown id="dropdown" alignRight className="dropdown">
 								<DropdownToggle
 									variant="danger"
