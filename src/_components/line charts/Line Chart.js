@@ -11,6 +11,7 @@ class LineChart extends Component {
 		const options = {
 			animationEnabled: true,
 			exportEnabled: true,
+			zoomEnabled: true,
 			theme: 'light2', // "light1", "dark1", "dark2"
 			title: {
 				text: sessionStorage.getItem('unternehmen'),
