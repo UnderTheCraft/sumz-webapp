@@ -7,6 +7,7 @@ Aufrufbar ist die WebApp über folgenden Link: https://github.com/UnderTheCraft/
 - Ant Design: https://ant.design/
 - Ant Design Icons: https://ant.design/components/icon/
 - Moment.js: https://momentjs.com/
+- CanvasJS: https://canvasjs.com/html5-javascript-line-chart/
 
 ## Lokaler Start:
 - Entwicklungsumgebung wie VisualStudio Code
