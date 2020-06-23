@@ -74,7 +74,7 @@ class LineChart extends Component {
 					type: 'line',
 					toolTipContent: '{x}: {y} $',
 					xValueFormatString: 'DD. MMM YYYY',
-					markerSize: 10,
+					markerSize: 5,
 					dataPoints: this.state.stockdata,
 				},
 			],
