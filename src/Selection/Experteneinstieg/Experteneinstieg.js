@@ -76,7 +76,10 @@ export class Experteneinstieg extends React.Component {
 
 	disabledDate(current) {
 		// .subtract(3, 'months'), weil immer vom aktuellen Quartal ausgegangen wird. D.h. April ist Q2, es darf aber nur bis Q1 berechnet werden
-		return current && current > moment().endOf('day').subtract(3, 'months');
+		let future = current > moment().endOf('day').subtract(3, 'months');
+		let past = current < moment('20140930', 'YYYYMMDD').endOf('day');
+
+		return future || past;
 	}
 
 	resetExperteneinstieg() {
