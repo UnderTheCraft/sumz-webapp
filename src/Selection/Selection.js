@@ -1,27 +1,14 @@
-import { LineChartOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { DatePicker } from 'antd';
+import { LineChartOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import moment from 'moment';
 import React from 'react';
-import {
-	Accordion,
-	AccordionCollapse,
-	AccordionToggle,
-	Button,
-	ButtonGroup,
-	Card,
-	Dropdown,
-	DropdownItem,
-	FormGroup,
-} from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown, DropdownItem } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Spinner from 'react-bootstrap/Spinner';
-import Tooltip from 'react-bootstrap/Tooltip';
 import { Link } from 'react-router-dom';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
+import { Experteneinstieg } from './Experteneinstieg/Experteneinstieg';
 import './Selection.css';
 
 export class Selection extends React.Component {
@@ -29,17 +16,13 @@ export class Selection extends React.Component {
 		super(props);
 
 		this.changeValue = this.changeValue.bind(this);
-		this.saveFactors = this.saveFactors.bind(this);
-		this.resetExperteneinstieg = this.resetExperteneinstieg.bind(this);
 
 		this.disableButton = true;
-
 		this.currentId = 0;
 
 		this.state = {
 			companies: [],
 			methods: [],
-			factors: { mrp: 0, zinssatz: 0, quartal: '' },
 			dropDownValue: { company: 'Wähle ein Unternehmen ...', link: null },
 			dropdownOpen: false,
 			disableButtonLoading: true,
@@ -49,7 +32,6 @@ export class Selection extends React.Component {
 	componentDidMount() {
 		this.getCompanies();
 		this.getMethods();
-		this.getFactors();
 	}
 
 	getCompanies() {
@@ -70,23 +52,6 @@ export class Selection extends React.Component {
 				this.setState({ methods: data });
 			});
 		});
-	}
-
-	getFactors() {
-		fetch('https://sumz-backend.herokuapp.com/getDefaultExpertValues').then(
-			(response) => {
-				response.json().then((data) => {
-					console.log(data);
-					this.setState({
-						factors: {
-							mrp: data.market_risk_premium,
-							zinssatz: data.risk_free_interest,
-							quartal: '2019-Q4',
-						},
-					});
-				});
-			}
-		);
 	}
 
 	changeValue(e) {
@@ -145,55 +110,6 @@ export class Selection extends React.Component {
 		}
 	}
 
-	saveFactors() {
-		var mrpVal = document.getElementById('mrp').value;
-		var zinssatzVal = document.getElementById('zinssatz').value;
-		var quartalVal = document.getElementById('datepicker').value;
-
-		if (mrpVal === '') {
-			mrpVal = this.state.factors.mrp;
-		}
-		if (zinssatzVal === '') {
-			zinssatzVal = this.state.factors.zinssatz;
-		}
-
-		this.setState(
-			{ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } },
-			() => {
-				this.resetExperteneinstieg();
-			}
-		);
-	}
-
-	disabledDate(current) {
-		// .subtract(3, 'months'), weil immer vom aktuellen Quartal ausgegangen wird. D.h. April ist Q2, es darf aber nur bis Q1 berechnet werden
-		return current && current > moment().endOf('day').subtract(3, 'months');
-	}
-
-	resetExperteneinstieg() {
-		var feldMrp = document.getElementById('mrp');
-		var feldZinssatz = document.getElementById('zinssatz');
-		var feldDatepicker = document.getElementById('datepicker');
-
-		if (feldMrp !== null) {
-			feldMrp.value = parseFloat(this.state.factors.mrp.valueOf());
-		}
-		if (feldZinssatz != null) {
-			feldZinssatz.value = parseFloat(this.state.factors.zinssatz);
-		}
-		if (feldDatepicker !== null) {
-			feldDatepicker.value = this.state.factors.quartal;
-		}
-	}
-
-	removeZinssatzValue() {
-		document.getElementById('zinssatz').value = '';
-	}
-
-	removeMrpValue() {
-		document.getElementById('mrp').value = '';
-	}
-
 	render() {
 		return (
 			<>
@@ -241,107 +157,7 @@ export class Selection extends React.Component {
 								</DropdownMenu>
 							</Dropdown>
 							<br />
-							<Accordion defaultActiveKey="0">
-								<Card border="white">
-									<Card.Header>
-										<AccordionToggle
-											as={Button}
-											disabled={this.state.disableButtonLoading}
-											data-toggle="collapse"
-											onClick={this.resetExperteneinstieg}
-											variant="link"
-											eventKey="1"
-										>
-											Experteneinstieg
-										</AccordionToggle>
-									</Card.Header>
-									<AccordionCollapse eventKey="1">
-										<Card.Body>
-											<FormGroup>
-												Finanzdaten bis:
-												<OverlayTrigger
-													overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
-												>
-													<span className="d-inline-block">
-														<InfoCircleOutlined className="tooltipIcon" />
-													</span>
-												</OverlayTrigger>
-												<br />
-												<div className="datepicker">
-													<DatePicker
-														id="datepicker"
-														picker="quarter"
-														size="large"
-														placeholder="Quartal"
-														disabledDate={this.disabledDate}
-														defaultValue={moment('2019/12/13', 'YYYY/MM/DD')}
-														format="YYYY-[Q]Q"
-													/>
-												</div>
-												<hr />
-												Risikofreier Zinssatz:
-												<OverlayTrigger
-													overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
-												>
-													<span className="d-inline-block">
-														<InfoCircleOutlined className="tooltipIcon" />
-													</span>
-												</OverlayTrigger>
-												<div className="input-group mb-3">
-													<input
-														id="zinssatz"
-														type="number"
-														onFocus={this.removeZinssatzValue}
-														className="form-control"
-														placeholder={parseFloat(
-															this.state.factors.zinssatz
-														)}
-														aria-label="Amount (to the nearest dollar)"
-													/>
-													<div className="input-group-append">
-														<span className="input-group-text">%</span>
-													</div>
-												</div>
-												<hr />
-												Marktrisikoprämie:
-												<OverlayTrigger
-													overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
-												>
-													<span className="d-inline-block">
-														<InfoCircleOutlined className="tooltipIcon" />
-													</span>
-												</OverlayTrigger>
-												<div className="input-group mb-3">
-													<input
-														id="mrp"
-														type="number"
-														onFocus={this.removeMrpValue}
-														className="form-control"
-														placeholder={parseFloat(this.state.factors.mrp)}
-														aria-label="Amount (to the nearest dollar)"
-													/>
-													<div className="input-group-append">
-														<span className="input-group-text">%</span>
-													</div>
-												</div>
-												<hr />
-												<AccordionToggle
-													as={Button}
-													disabled={this.state.disableButtonLoading}
-													data-toggle="collapse"
-													type="submit"
-													onClick={this.saveFactors}
-													variant="danger"
-													eventKey="1"
-													block
-												>
-													Alles Übernehmen
-												</AccordionToggle>
-											</FormGroup>
-										</Card.Body>
-									</AccordionCollapse>
-								</Card>
-							</Accordion>
+							<Experteneinstieg />
 							<br />
 							<p>Methode der Berechnung</p>
 							<ButtonGroup vertical>
