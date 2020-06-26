@@ -1,9 +1,10 @@
-import { RollbackOutlined } from '@ant-design/icons';
+import { RollbackOutlined, HomeOutlined } from '@ant-design/icons';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import './APV.css';
+import apvFormel from '../_assets/FormelAPV.png';
 
 const APV = () => (
 	<div className="App-body">
@@ -18,8 +19,9 @@ const APV = () => (
 		Unternehmensgesamtwert (Entity Value) ermittelt.
 		<br />
 		<br />
-		Bild
-		<br />
+		<div>
+			<img id="formel" src={apvFormel} alt="Formel" />
+		</div>
 		<br />
 		Das APV-Verfahren ermittelt den Unternehmenswert in seiner „klassischen“
 		Form zunächst unter der Annahme vollständiger Eigenfinanzierung (Marktwert
@@ -35,12 +37,21 @@ const APV = () => (
 		Unternehmens.
 		<br />
 		<br />
-		<Button variant="danger" className="backButton">
-			<Link className="buttonlink" to="/">
-				Startseite
-				<RollbackOutlined className="backIcon" />
-			</Link>
-		</Button>
+		<div>
+			<Button variant="danger" className="backToStartButton">
+				<Link className="buttonlink" to="/">
+					Startseite
+					<HomeOutlined className="backToStartIcon" />
+				</Link>
+			</Button>
+			<Button variant="danger" className="backButton">
+				<Link className="buttonlink" to="/result">
+					Zurück
+					<RollbackOutlined className="backIcon" />
+				</Link>
+			</Button>
+		</div>
+		<br />
 		<br />
 	</div>
 );

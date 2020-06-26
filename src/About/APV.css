@@ -1,8 +1,18 @@
+.backToStartButton,
 .backButton {
 	max-height: 38px;
 }
 
+.backButton {
+	margin-left: 20px;
+}
+
+.backToStartIcon,
 .backIcon {
 	margin-left: 10px;
 	vertical-align: 0.125em !important;
+}
+
+#formel {
+	max-width: 80%;
 }
