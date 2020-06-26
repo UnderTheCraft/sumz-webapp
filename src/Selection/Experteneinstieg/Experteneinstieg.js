@@ -127,7 +127,13 @@ export class Experteneinstieg extends React.Component {
 								<FormGroup>
 									Finanzdaten bis:
 									<OverlayTrigger
-										overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
+										overlay={
+											<Tooltip id="tooltip-disabled">
+												Hier kann das Endquartal angegeben werden, bis zu
+												welchem die Free Cash Flows in die Unternehmensbewertung
+												einbezogen werden sollen.
+											</Tooltip>
+										}
 									>
 										<span className="d-inline-block">
 											<InfoCircleOutlined className="tooltipIcon" />
@@ -148,7 +154,13 @@ export class Experteneinstieg extends React.Component {
 									<hr />
 									Risikofreier Zinssatz:
 									<OverlayTrigger
-										overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
+										overlay={
+											<Tooltip id="tooltip-disabled">
+												Der risikofreie Zinssatz orientiert sich an den
+												sichersten Anlagemöglichkeiten, welche auf dem Papier
+												quasi risikofrei sind.
+											</Tooltip>
+										}
 									>
 										<span className="d-inline-block">
 											<InfoCircleOutlined className="tooltipIcon" />
@@ -170,7 +182,16 @@ export class Experteneinstieg extends React.Component {
 									<hr />
 									Marktrisikoprämie:
 									<OverlayTrigger
-										overlay={<Tooltip id="tooltip-disabled">Def</Tooltip>}
+										overlay={
+											<Tooltip id="tooltip-disabled">
+												Die Marktrisikoprämie ergibt sich aus der Differenz der
+												Risikoprämie, welche für eine bestimmte Anlageklasse
+												fällig ist (bspw. Aktien, Anleihen, etc.) und dem
+												risikofreien Zinssatz. Sie entspricht dem Erwartungswert
+												der Rendite aus einem Marktportfolio, abzüglich des
+												risikofreien Zinssatzes.
+											</Tooltip>
+										}
 									>
 										<span className="d-inline-block">
 											<InfoCircleOutlined className="tooltipIcon" />
