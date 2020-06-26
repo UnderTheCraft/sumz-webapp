@@ -52,8 +52,7 @@ export class Result extends React.Component {
 						<p>
 							{' '}
 							Der Unternehmenswert von {this.state.unternehmen} wird mit der
-							Methode {this.state.methode} zum {this.state.ergebnis}{' '}
-							prognostiziert.
+							Methode {this.state.methode} auf {this.state.ergebnis} berechnet.
 						</p>
 						<br />
 						<h1 className="left">
