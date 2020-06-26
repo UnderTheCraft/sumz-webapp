@@ -13,6 +13,25 @@ class LineChart extends Component {
 	}
 
 	componentDidMount() {
+		this.getStockData();
+	}
+
+	getUnternehmenswert() {
+		fetch(
+			'https://sumz-backend.herokuapp.com/getCorporateValue/' +
+				sessionStorage.getItem('link') +
+				'/' +
+				sessionStorage.getItem('methodLink')
+		).then((response) => {
+			response.json().then((data) => {
+				let berechneterKurs =
+					data['Enterprise Value'] / data['Amount of Shares'];
+				this.setState({ uw: berechneterKurs });
+			});
+		});
+	}
+
+	getStockData() {
 		fetch(
 			'https://sumz-backend.herokuapp.com/getStockChart/' +
 				sessionStorage.getItem('link')
@@ -29,14 +48,11 @@ class LineChart extends Component {
 						x: new Date(dataPoint.x),
 						y: value,
 					};
-
-					// vorübergehend:
-					if (i === dataPointsList.length - 1) {
-						let uwList = new Array(1);
-						uwList[0] = { x: new Date(), y: value };
-						this.setState({ uw: uwList });
-					}
 				}
+				let uwList = new Array(1);
+				uwList[0] = { x: new Date(), y: 200 };
+				this.setState({ uw: uwList });
+
 				this.setState({ stockdata: stockdataset });
 			});
 		});

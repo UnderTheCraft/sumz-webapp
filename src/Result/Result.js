@@ -16,13 +16,11 @@ export class Result extends React.Component {
 			unternehmen: sessionStorage.getItem('unternehmen'),
 			methode: sessionStorage.getItem('methode'),
 			link: sessionStorage.getItem('link'),
-			ergebnis: '$ergebnis',
-			entwicklung: '$entwicklung',
+			methodLink: sessionStorage.getItem('methodLink'),
+			aktienanzahl: 0,
 			unternehmenswert: '$unternehmenswert',
 			bewertet: '$bewertet',
 			empfehlung: '$empfehlung',
-			cashflows: '$fcf',
-			startDatum: '$startdatum',
 		};
 	}
 
@@ -30,16 +28,49 @@ export class Result extends React.Component {
 		this.getUnternehmenswert();
 	}
 
-	async getUnternehmenswert() {
-		const response = await fetch(
+	getUnternehmenswert() {
+		fetch(
 			'https://sumz-backend.herokuapp.com/getCorporateValue/' +
 				sessionStorage.getItem('link') +
 				'/' +
 				sessionStorage.getItem('methodLink')
-		);
-		const myJson = await response.json();
+		).then((response) => {
+			response.json().then((data) => {
+				let unsereEmpfehlung = '';
+				if (data.Recommendation === 'Sell') {
+					unsereEmpfehlung = 'Verkaufen';
+				} else if (data.Recommendation === 'Hold') {
+					unsereEmpfehlung = 'Halten';
+				} else if (data.Recommendation === 'Buy') {
+					unsereEmpfehlung = 'Kaufen';
+				}
 
-		console.log(myJson);
+				let unsereBewertung = '';
+				let berechneterKurs =
+					data['Enterprise Value'] / data['Amount of Shares'];
+
+				if (
+					berechneterKurs > parseFloat(sessionStorage.getItem('aktienkurs'))
+				) {
+					unsereBewertung = 'unterbewertet';
+				} else {
+					unsereBewertung = 'überbewertet';
+				}
+
+				sessionStorage.setItem('uw', berechneterKurs);
+
+				this.setState({
+					unternehmenswert: new Intl.NumberFormat('de-DE', {
+						style: 'currency',
+						currency: data.Currency,
+					}).format(data['Enterprise Value']),
+					aktienanzahl: data['Amount of Shares'],
+					empfehlung: unsereEmpfehlung,
+					bewertet: unsereBewertung,
+				});
+				console.log(data);
+			});
+		});
 	}
 
 	render() {
@@ -52,16 +83,15 @@ export class Result extends React.Component {
 						<p>
 							{' '}
 							Der Unternehmenswert von {this.state.unternehmen} wird mit der
-							Methode {this.state.methode} auf {this.state.ergebnis} berechnet.
+							Methode {this.state.methode} ({this.state.methodLink}) berechnet.
 						</p>
 						<br />
 						<h1 className="left">
 							Unternehmenswert: {this.state.unternehmenswert}
 						</h1>
 						<p>
-							Die Aktien von {this.state.unternehmen} scheinen sich bis jetzt{' '}
-							{this.state.entwicklung} zu entwickeln. Die Aktie ist{' '}
-							{this.state.bewertet}!
+							Die Aktien von {this.state.unternehmen} scheinen im aktuellen
+							Aktienkurs {this.state.bewertet} zu sein!
 						</p>
 						<br />
 						<h1 className="left">Aktienkurs</h1>
