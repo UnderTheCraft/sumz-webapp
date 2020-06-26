@@ -32,8 +32,10 @@ export class Result extends React.Component {
 
 	async getUnternehmenswert() {
 		const response = await fetch(
-			'https://sumz-backend.herokuapp.com/getCashFlows/' +
-				sessionStorage.getItem('link')
+			'https://sumz-backend.herokuapp.com/getCorporateValue/' +
+				sessionStorage.getItem('link') +
+				'/' +
+				sessionStorage.getItem('methodLink')
 		);
 		const myJson = await response.json();
 

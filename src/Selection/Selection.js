@@ -90,6 +90,7 @@ export class Selection extends React.Component {
 
 		sessionStorage.setItem('unternehmen', this.state.dropDownValue.company);
 		sessionStorage.setItem('methode', e.currentTarget.textContent);
+		sessionStorage.setItem('methodLink', e.currentTarget.id);
 		sessionStorage.setItem('link', this.state.dropDownValue.link);
 	};
 
@@ -172,6 +173,7 @@ export class Selection extends React.Component {
 										>
 											<Link
 												key={e.method}
+												id={e.method}
 												onClick={this.handleClick}
 												className="buttonlinkBlack"
 												to="/result"
