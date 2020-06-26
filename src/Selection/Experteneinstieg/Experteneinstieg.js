@@ -77,7 +77,7 @@ export class Experteneinstieg extends React.Component {
 	disabledDate(current) {
 		// .subtract(3, 'months'), weil immer vom aktuellen Quartal ausgegangen wird. D.h. April ist Q2, es darf aber nur bis Q1 berechnet werden
 		let future = current > moment().endOf('day').subtract(3, 'months');
-		let past = current < moment('20140930', 'YYYYMMDD').endOf('day');
+		let past = current < moment('20190331', 'YYYYMMDD').endOf('day');
 
 		return future || past;
 	}
@@ -142,7 +142,7 @@ export class Experteneinstieg extends React.Component {
 											size="large"
 											placeholder="Quartal"
 											disabledDate={this.disabledDate}
-											defaultValue={moment('2019/12/13', 'YYYY/MM/DD')}
+											defaultValue={moment('2019/12/31', 'YYYY/MM/DD')}
 											format="YYYY-[Q]Q"
 										/>
 									</div>
