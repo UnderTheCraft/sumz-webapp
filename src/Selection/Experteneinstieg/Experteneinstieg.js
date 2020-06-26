@@ -36,7 +36,6 @@ export class Experteneinstieg extends React.Component {
 		fetch('https://sumz-backend.herokuapp.com/getDefaultExpertValues').then(
 			(response) => {
 				response.json().then((data) => {
-					console.log(data);
 					this.setState(
 						{
 							factors: {
