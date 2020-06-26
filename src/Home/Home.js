@@ -15,7 +15,7 @@ export const Home = () => (
 				<p>
 					Diese Anwendung wird zur Berechung des Unternehmenswertes verwendet!
 					Das Brown-Rozeff-Modell wird zur Prognose zukünftiger Casflows
-					verwendet. Die Daten der 30 Dax-Unternehmen sind im Backend dieser App
+					verwendet. Die Daten der Unternehmen sind im Backend dieser App
 					gespeichert und werden je nach Eingabe des Benutzers herangezogen.
 					Basierend auf der gewählten Methode wird der Unternehmenswert
 					berechnet.
