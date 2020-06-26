@@ -1,34 +1,24 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../../_assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+var berechneterKurswert = [{ x: new Date(), y: 0 }];
 
 class LineChart extends Component {
 	constructor(props) {
 		super(props);
+		window.chartComponent = this;
 
 		this.state = {
 			stockdata: [],
-			uw: [],
 		};
+	}
+
+	setBerechneterKurswert(value) {
+		berechneterKurswert = value;
 	}
 
 	componentDidMount() {
 		this.getStockData();
-	}
-
-	getUnternehmenswert() {
-		fetch(
-			'https://sumz-backend.herokuapp.com/getCorporateValue/' +
-				sessionStorage.getItem('link') +
-				'/' +
-				sessionStorage.getItem('methodLink')
-		).then((response) => {
-			response.json().then((data) => {
-				let berechneterKurs =
-					data['Enterprise Value'] / data['Amount of Shares'];
-				this.setState({ uw: berechneterKurs });
-			});
-		});
 	}
 
 	getStockData() {
@@ -49,9 +39,6 @@ class LineChart extends Component {
 						y: value,
 					};
 				}
-				let uwList = new Array(1);
-				uwList[0] = { x: new Date(), y: 200 };
-				this.setState({ uw: uwList });
 
 				this.setState({ stockdata: stockdataset });
 			});
@@ -81,7 +68,7 @@ class LineChart extends Component {
 					showInLegend: true,
 					toolTipContent: '{x}: {y} $',
 					xValueFormatString: 'DD. MMM YYYY',
-					dataPoints: this.state.uw,
+					dataPoints: berechneterKurswert,
 				},
 				{
 					name: 'Aktienkurswert',
@@ -100,6 +87,7 @@ class LineChart extends Component {
 			<div>
 				<CanvasJSChart
 					options={options}
+					id="test"
 					/* onRef={ref => this.chart = ref} */
 				/>
 				{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
