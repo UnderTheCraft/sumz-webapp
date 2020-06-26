@@ -1,4 +1,4 @@
-# SUMZ Unternehmensbewertung
+# SUMZ Unternehmensbewertung - WebApp
 Aufrufbar ist die WebApp über folgenden Link: https://github.com/UnderTheCraft/sumz-webapp/
 
 ## Technologien:
