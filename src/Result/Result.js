@@ -49,6 +49,7 @@ export class Result extends React.Component {
 				let unsereBewertung = '';
 				let berechneterKurs =
 					data['Enterprise Value'] / data['Amount of Shares'];
+				berechneterKurs = Math.round(berechneterKurs * 100) / 100;
 
 				if (
 					berechneterKurs > parseFloat(sessionStorage.getItem('aktienkurs'))
