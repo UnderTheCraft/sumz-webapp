@@ -1,10 +1,10 @@
-import { RollbackOutlined, HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, RollbackOutlined } from '@ant-design/icons';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import './APV.css';
 import apvFormel from '../_assets/FormelAPV.png';
+import './APV.css';
 
 const APV = () => (
 	<div className="App-body">

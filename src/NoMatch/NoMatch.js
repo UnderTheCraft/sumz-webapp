@@ -1,6 +1,6 @@
 import React from 'react';
-import { Layout } from '../_components/Layout/Layout';
 import '../App.css';
+import { Layout } from '../_components/Layout/Layout';
 
 export const NoMatch = () => (
 	<div>
