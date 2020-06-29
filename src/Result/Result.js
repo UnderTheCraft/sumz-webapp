@@ -30,12 +30,17 @@ export class Result extends React.Component {
 	}
 
 	getUnternehmenswert() {
-		fetch(
-			'https://sumz-backend.herokuapp.com/getCorporateValue/' +
-				sessionStorage.getItem('link') +
-				'/' +
-				sessionStorage.getItem('methodLink')
-		).then((response) => {
+		let valForcast = this.getValForecast();
+
+		let linkApi = 'https://sumz-backend.herokuapp.com/getCorporateValue';
+
+		linkApi += '/' + sessionStorage.getItem('link');
+		linkApi += '/' + sessionStorage.getItem('methodLink');
+		linkApi += '?last_date_forecast=' + valForcast;
+		linkApi += '&risk_free_interest_rate=' + sessionStorage.getItem('zinssatz');
+		linkApi += '&market_risk_premium=' + sessionStorage.getItem('mrp');
+
+		fetch(linkApi).then((response) => {
 			response.json().then((data) => {
 				let unsereEmpfehlung = '';
 				if (data.Recommendation === 'Sell') {
@@ -80,6 +85,27 @@ export class Result extends React.Component {
 				);
 			});
 		});
+	}
+
+	getValForecast() {
+		let valForcast = '3d.mm.yyyy';
+		let expertQuartal = sessionStorage.getItem('quartal');
+
+		let year = expertQuartal.substr(0, 4);
+		let quarter = expertQuartal.substr(6, 1);
+
+		valForcast = valForcast.replace('yyyy', year);
+		if (quarter === '1' || quarter === '4') {
+			valForcast = valForcast.replace('d', '1');
+			valForcast =
+				quarter === '1'
+					? valForcast.replace('mm', '01')
+					: valForcast.replace('mm', '12');
+		} else {
+			valForcast = valForcast.replace('d', '0');
+			valForcast = valForcast.replace('mm', '0' + parseInt(quarter) * 3);
+		}
+		return valForcast;
 	}
 
 	render() {

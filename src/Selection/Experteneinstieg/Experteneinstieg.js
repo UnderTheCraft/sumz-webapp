@@ -46,11 +46,18 @@ export class Experteneinstieg extends React.Component {
 						},
 						() => {
 							this.setState({ disableButtonLoading: false });
+							this.moveToSessionStorage();
 						}
 					);
 				});
 			}
 		);
+	}
+
+	moveToSessionStorage() {
+		sessionStorage.setItem('mrp', this.state.factors.mrp);
+		sessionStorage.setItem('zinssatz', this.state.factors.zinssatz);
+		sessionStorage.setItem('quartal', this.state.factors.quartal);
 	}
 
 	saveFactors() {
@@ -69,6 +76,7 @@ export class Experteneinstieg extends React.Component {
 			{ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } },
 			() => {
 				this.resetExperteneinstieg();
+				this.moveToSessionStorage();
 			}
 		);
 	}
