@@ -23,7 +23,7 @@ export class Experteneinstieg extends React.Component {
 		this.resetExperteneinstieg = this.resetExperteneinstieg.bind(this);
 
 		this.state = {
-			factors: { mrp: 0, zinssatz: 0, quartal: '' },
+			factors: { mrp: 0, zinssatz: 0, quartal: '', fcfRate: 0 },
 			disableButtonLoading: true,
 		};
 	}
@@ -42,6 +42,7 @@ export class Experteneinstieg extends React.Component {
 								mrp: data.market_risk_premium,
 								zinssatz: data.risk_free_interest,
 								quartal: '2019-Q4',
+								fcfRate: data.fcf_growth_rate,
 							},
 						},
 						() => {
@@ -58,12 +59,14 @@ export class Experteneinstieg extends React.Component {
 		sessionStorage.setItem('mrp', this.state.factors.mrp);
 		sessionStorage.setItem('zinssatz', this.state.factors.zinssatz);
 		sessionStorage.setItem('quartal', this.state.factors.quartal);
+		sessionStorage.setItem('fcfRate', this.state.factors.fcfRate);
 	}
 
 	saveFactors() {
 		var mrpVal = document.getElementById('mrp').value;
 		var zinssatzVal = document.getElementById('zinssatz').value;
 		var quartalVal = document.getElementById('datepicker').value;
+		var fcfVal = document.getElementById('fcfRate').value;
 
 		if (mrpVal === '') {
 			mrpVal = this.state.factors.mrp;
@@ -71,9 +74,19 @@ export class Experteneinstieg extends React.Component {
 		if (zinssatzVal === '') {
 			zinssatzVal = this.state.factors.zinssatz;
 		}
+		if (fcfVal === '') {
+			fcfVal = this.state.factors.fcfRate;
+		}
 
 		this.setState(
-			{ factors: { mrp: mrpVal, zinssatz: zinssatzVal, quartal: quartalVal } },
+			{
+				factors: {
+					mrp: mrpVal,
+					zinssatz: zinssatzVal,
+					quartal: quartalVal,
+					fcfRate: fcfVal,
+				},
+			},
 			() => {
 				this.resetExperteneinstieg();
 				this.moveToSessionStorage();
@@ -93,6 +106,7 @@ export class Experteneinstieg extends React.Component {
 		var feldMrp = document.getElementById('mrp');
 		var feldZinssatz = document.getElementById('zinssatz');
 		var feldDatepicker = document.getElementById('datepicker');
+		var feldFcfRate = document.getElementById('fcfRate');
 
 		if (feldMrp !== null) {
 			feldMrp.value = parseFloat(this.state.factors.mrp.valueOf());
@@ -103,6 +117,9 @@ export class Experteneinstieg extends React.Component {
 		if (feldDatepicker !== null) {
 			feldDatepicker.value = this.state.factors.quartal;
 		}
+		if (feldFcfRate !== null) {
+			feldFcfRate.value = this.state.factors.fcfRate;
+		}
 	}
 
 	removeZinssatzValue() {
@@ -111,6 +128,10 @@ export class Experteneinstieg extends React.Component {
 
 	removeMrpValue() {
 		document.getElementById('mrp').value = '';
+	}
+
+	removeFcfRateValue() {
+		document.getElementById('fcfRate').value = '';
 	}
 
 	render() {
@@ -212,6 +233,28 @@ export class Experteneinstieg extends React.Component {
 											onFocus={this.removeMrpValue}
 											className="form-control"
 											placeholder={parseFloat(this.state.factors.mrp)}
+											aria-label="Amount (to the nearest dollar)"
+										/>
+										<div className="input-group-append">
+											<span className="input-group-text">%</span>
+										</div>
+									</div>
+									<hr />
+									FCF Wachstumsrate:
+									<OverlayTrigger
+										overlay={<Tooltip id="tooltip-disabled">FCF rate</Tooltip>}
+									>
+										<span className="d-inline-block">
+											<InfoCircleOutlined className="tooltipIcon" />
+										</span>
+									</OverlayTrigger>
+									<div className="input-group mb-3">
+										<input
+											id="fcfRate"
+											type="number"
+											onFocus={this.removeFcfRateValue}
+											className="form-control"
+											placeholder={parseFloat(this.state.factors.fcfRate)}
 											aria-label="Amount (to the nearest dollar)"
 										/>
 										<div className="input-group-append">
