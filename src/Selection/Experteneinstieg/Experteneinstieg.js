@@ -242,7 +242,12 @@ export class Experteneinstieg extends React.Component {
 									<hr />
 									FCF Wachstumsrate:
 									<OverlayTrigger
-										overlay={<Tooltip id="tooltip-disabled">FCF rate</Tooltip>}
+										overlay={
+											<Tooltip id="tooltip-disabled">
+												Bei der Berechnung des "Ewigen Rentenmodells" gibt dies
+												die jährliche Wachstumsrate des Free Cash Flows an.
+											</Tooltip>
+										}
 									>
 										<span className="d-inline-block">
 											<InfoCircleOutlined className="tooltipIcon" />
