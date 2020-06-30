@@ -26,3 +26,13 @@ npm start
 
 
 Bei jedem Commit wird die WebApp automatisch gebaut und auf dem Heroku Server deployed!
+
+
+## Deployment bei Hoster:
+
+Das Frontend sollte neben der lokalen Ausfürhung immer über das Internet erreichbar sein, weswegen ein Hoster verwendet wird.
+Bisher wurde die Anwendung bei https://app.netlify.com deployed, da dort kostenloses Hosting verfügbar ist.
+
+Um das Repository dort zu deployen wird ein Account bei Netlify benötigt.
+Angemeldet muss eine neue App erstellt werden. Das Repository kann der App als Ressource zur Verfügung gestellt werden.
+Das Deployment und Hosting wird anschließend automatisch durchgeführt. Die dabei erzeugte URL kann verwendet werden, um auf die WebApp zuzugreifen.
