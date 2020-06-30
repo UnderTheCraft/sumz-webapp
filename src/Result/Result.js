@@ -22,6 +22,7 @@ export class Result extends React.Component {
 			unternehmenswert: '$unternehmenswert',
 			bewertet: '$bewertet',
 			empfehlung: '$empfehlung',
+			marktkapitalisierung: '§marktkapitalisierung',
 		};
 	}
 
@@ -75,6 +76,10 @@ export class Result extends React.Component {
 							style: 'currency',
 							currency: data.Currency,
 						}).format(data['Enterprise Value']),
+						marktkapitalisierung: new Intl.NumberFormat('de-DE', {
+							style: 'currency',
+							currency: data.Currency,
+						}).format(data['Market Capitalization']),
 						aktienanzahl: data['Amount of Shares'],
 						empfehlung: unsereEmpfehlung,
 						bewertet: unsereBewertung,
@@ -120,7 +125,7 @@ export class Result extends React.Component {
 					<div id="flaeche" className="flaeche">
 						<div className="App-body">
 							<h1 className="left">... hier kommt das Ergebnis!</h1>
-							<p>
+							<p className="left">
 								{' '}
 								Der Unternehmenswert von {this.state.unternehmen} wird mit der
 								Methode {this.state.methode} ({this.state.methodLink})
@@ -128,9 +133,17 @@ export class Result extends React.Component {
 							</p>
 							<br />
 							<h1 className="left">
-								Unternehmenswert: {this.state.unternehmenswert}
+								Marktkapitalisierung: 
+								<br />
+								{this.state.marktkapitalisierung}
 							</h1>
-							<p>
+							<br />
+							<h1 className="left">
+								Berechneter Unternehmenswert: 
+								<br />
+								{this.state.unternehmenswert}
+							</h1>
+							<p className="left">
 								Die Aktien von {this.state.unternehmen} scheinen im aktuellen
 								Aktienkurs {this.state.bewertet} zu sein!
 							</p>
@@ -143,7 +156,9 @@ export class Result extends React.Component {
 
 							<br />
 							<h1 className="left">
-								Unsere Empfehlung: {this.state.empfehlung}
+								Unsere Empfehlung:
+								<br />
+								{this.state.empfehlung}
 							</h1>
 							<br />
 							<div className="infoicon">
