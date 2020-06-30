@@ -36,3 +36,6 @@ Bisher wurde die Anwendung bei https://app.netlify.com deployed, da dort kostenl
 Um das Repository dort zu deployen wird ein Account bei Netlify benötigt.
 Angemeldet muss eine neue App erstellt werden. Das Repository kann der App als Ressource zur Verfügung gestellt werden.
 Das Deployment und Hosting wird anschließend automatisch durchgeführt. Die dabei erzeugte URL kann verwendet werden, um auf die WebApp zuzugreifen.
+
+Das zu dem Frontend dazugehörige Backend wird zum einen in der Selection.js und Result.js unter der URL sumz-backend.herokuapp.com aufgerufen.
+Bei Änderung der URL des Backends muss dies dementsprechend angepasst werden. 
