@@ -15,8 +15,10 @@ export class Selection extends React.Component {
 	constructor(props) {
 		super(props);
 
+		// wird benötigt wenn this.state mit setState verändert wird
 		this.changeValue = this.changeValue.bind(this);
 
+		//Flags
 		this.disableButton = true;
 		this.currentId = 0;
 
@@ -29,15 +31,18 @@ export class Selection extends React.Component {
 		};
 	}
 
+	//Ausführen beim Bauen
 	componentDidMount() {
 		this.getCompanies();
 		this.getMethods();
 	}
 
+	//API call für alle berechenbare Unternehmen
 	getCompanies() {
 		fetch('https://sumz-backend.herokuapp.com/companies').then((response) => {
 			response.json().then((data) => {
 				this.setState({ companies: data }, () => {
+					//blur entfernen und Button freigeben
 					this.setState({ disableButtonLoading: false });
 					document.getElementById('loading').style.display = 'none';
 					document.getElementById('flaeche').style.webkitFilter = 'none';
@@ -46,6 +51,7 @@ export class Selection extends React.Component {
 		});
 	}
 
+	//Dynamische Methoden auf Basis des Rückgabewerts -> Methode muss nur im Backend ergänzt ohne Änderung im Frontend
 	getMethods() {
 		fetch('https://sumz-backend.herokuapp.com/methods').then((response) => {
 			response.json().then((data) => {
@@ -54,8 +60,9 @@ export class Selection extends React.Component {
 		});
 	}
 
+	// Ändern der Dropdown-Beschriftung nach Unternehmensauswahl
 	changeValue(e) {
-		// active removen
+		// active removen -> Farbiger Hintergrund bei ausgewähltem Element
 		if (this.currentId !== 0) {
 			var currentItem = document.getElementById(this.currentId);
 			currentItem.classList.remove('active');
@@ -66,34 +73,40 @@ export class Selection extends React.Component {
 			dropDownValue: { company: e.currentTarget.textContent, link: id },
 		});
 
-		//neues Item mit active setzen
+		//neues Item mit active setzen -> Hintergrund setzen
 		var element = document.getElementById(id);
 		element.classList.add('active');
 		this.currentId = id;
 
-		// Button und Link freigeben
+		// Button und Link freigeben für Methodenaufruf
 		if (this.currentId !== 0) {
 			this.disableButton = false;
 		}
 	}
 
+	//nach dem Laden Button freigeben beim Klicken
 	disableLoading = (e) => {
+		//Prüfung ob was getan werden muss
 		if (this.state.disableButtonLoading) {
 			e.preventDefault();
 		}
 	};
 
+	//Methodenklick -> nur bei ausgewähltem Unternehmen passiert was
 	handleClick = (e) => {
+		//Prüfung ob was getan werden muss
 		if (this.disableButton) {
 			e.preventDefault();
 		}
 
+		// wenn Unternehmen ausgwählt, dann speichern in session
 		sessionStorage.setItem('unternehmen', this.state.dropDownValue.company);
 		sessionStorage.setItem('methode', e.currentTarget.textContent);
 		sessionStorage.setItem('methodLink', e.currentTarget.id);
 		sessionStorage.setItem('link', this.state.dropDownValue.link);
 	};
 
+	//Suche im DopdownMenu
 	searchDropdownItem() {
 		var input, i, items;
 		input = document.getElementById('searchInput').value.toUpperCase();

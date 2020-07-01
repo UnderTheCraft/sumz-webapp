@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../../_assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+// Init Werte fürs Stockchart
 var berechneterKurswert = [{ x: new Date(), y: 0 }];
+var waehrung = '';
 
-class LineChart extends Component {
+class StockChart extends Component {
 	constructor(props) {
 		super(props);
 		window.chartComponent = this;
@@ -13,14 +15,28 @@ class LineChart extends Component {
 		};
 	}
 
+	// Kurswert in Chart setzen
 	setBerechneterKurswert(value) {
 		berechneterKurswert = value;
 	}
 
+	// Währung festlegen
+	setWaehrung(value) {
+		if (value === 'USD') {
+			waehrung = '$';
+		} else if (value === 'EUR') {
+			waehrung = '€';
+		} else {
+			waehrung = value;
+		}
+	}
+
+	//Ausführen beim Bauen
 	componentDidMount() {
 		this.getStockData();
 	}
 
+	//API call für StockChart-Werte
 	getStockData() {
 		fetch(
 			'https://sumz-backend.herokuapp.com/getStockChart/' +
@@ -30,6 +46,7 @@ class LineChart extends Component {
 				let dataPointsList = data.dataPoints;
 				let stockdataset = new Array(dataPointsList.length);
 
+				//Aufbereitung der Daten (runden etc.)
 				for (let i = 0; i < dataPointsList.length; i++) {
 					const dataPoint = dataPointsList[i];
 					let value = Math.round(dataPoint.y * 100) / 100;
@@ -50,7 +67,7 @@ class LineChart extends Component {
 			animationEnabled: true,
 			exportEnabled: true,
 			zoomEnabled: true,
-			theme: 'light2', // "light1", "dark1", "dark2"
+			theme: 'light2',
 			dataPointWidth: 30,
 			title: {
 				text: sessionStorage.getItem('unternehmen'),
@@ -58,25 +75,27 @@ class LineChart extends Component {
 			axisY: {
 				title: 'Kurswert',
 				includeZero: false,
-				suffix: ' $', // sessionStorage.getItem('waehrung')
+				suffix: ' ' + waehrung,
 			},
 			data: [
 				{
-					name: 'Aktienkurswert',
+					//Aktienkurs Linie
+					name: 'Aktienwert',
 					showInLegend: true,
 					color: '#192489',
 					type: 'line',
-					toolTipContent: '{x}: {y} $',
+					toolTipContent: '{x}: {y} ' + waehrung,
 					xValueFormatString: 'DD. MMM YYYY',
 					markerSize: 5,
 					dataPoints: this.state.stockdata,
 				},
 				{
-					type: 'column',
-					color: 'rgb(220, 53, 69)',
+					//Unternehmenswertbalken
 					name: 'Unternehmenswert',
 					showInLegend: true,
-					toolTipContent: '{x}: {y} $',
+					color: 'rgb(220, 53, 69)',
+					type: 'column',
+					toolTipContent: '{x}: {y} ' + waehrung,
 					xValueFormatString: 'DD. MMM YYYY',
 					dataPoints: berechneterKurswert,
 				},
@@ -85,15 +104,10 @@ class LineChart extends Component {
 
 		return (
 			<div>
-				<CanvasJSChart
-					options={options}
-					id="test"
-					/* onRef={ref => this.chart = ref} */
-				/>
-				{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+				<CanvasJSChart options={options} />
 			</div>
 		);
 	}
 }
 
-export default LineChart;
+export default StockChart;

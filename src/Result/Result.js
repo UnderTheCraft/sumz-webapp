@@ -1,14 +1,14 @@
 import { InfoCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import { Jumbotron } from '../_components/Jumbotron/Jumbotron';
 import { Layout } from '../_components/Layout/Layout';
-import LineChart from '../_components/line charts/Line Chart';
-import './Result.css';
-import Spinner from 'react-bootstrap/Spinner';
 import CFChart from '../_components/line charts/CFChart';
+import StockChart from '../_components/line charts/StockChart';
+import './Result.css';
 
 export class Result extends React.Component {
 	constructor(props) {
@@ -27,6 +27,7 @@ export class Result extends React.Component {
 		};
 	}
 
+	// Aufruf beim bauen
 	componentDidMount() {
 		this.getUnternehmenswert();
 	}
@@ -45,6 +46,7 @@ export class Result extends React.Component {
 
 		fetch(linkApi).then((response) => {
 			response.json().then((data) => {
+				// Festlegung von Variablen in Abhängigkeit der Ergebnisse
 				let unsereEmpfehlung = '';
 				if (data.Recommendation === 'Sell') {
 					unsereEmpfehlung = 'Verkaufen';
@@ -68,11 +70,11 @@ export class Result extends React.Component {
 				}
 
 				// Berechneter Kurswert in Chart einfügen
-				var uwV = [{ x: new Date(), y: berechneterKurs }];
-				window.chartComponent.setBerechneterKurswert(uwV);
+				this.setStockChart(berechneterKurs, data);
+				// FCF Chart befüllen
+				this.setFCFChart(data);
 
-				this.setFCFChart(data.FCF);
-
+				// this.state befülllen für HTML
 				this.setState(
 					{
 						unternehmenswert: new Intl.NumberFormat('de-DE', {
@@ -88,6 +90,7 @@ export class Result extends React.Component {
 						bewertet: unsereBewertung,
 					},
 					() => {
+						// blur entfernen
 						document.getElementById('loading').style.display = 'none';
 						document.getElementById('flaeche').style.webkitFilter = 'none';
 					}
@@ -96,13 +99,28 @@ export class Result extends React.Component {
 		});
 	}
 
+	// StockChart befüllen mit
+	setStockChart(berechneterKurs, data) {
+		var uwV = [
+			{
+				x: new Date(),
+				y: berechneterKurs,
+			},
+		];
+		// public Call auf Methoden in StockChart.js
+		window.chartComponent.setBerechneterKurswert(uwV);
+		window.chartComponent.setWaehrung(data.Currency);
+	}
+
+	// FCFChart befüllen
 	setFCFChart(value) {
-		var forecast = value.Forecast;
-		var past = value.Past;
+		var forecast = value.FCF.Forecast;
+		var past = value.FCF.Past;
 
 		var futureFCF = new Array(forecast.length);
 		var pastFCF = new Array(past.length);
 
+		//Forecast befüllen
 		for (let i = 0; i < forecast.length; i++) {
 			futureFCF[i] = {
 				x: new Date(forecast[i].date),
@@ -110,6 +128,7 @@ export class Result extends React.Component {
 			};
 		}
 
+		// Past befüllen
 		for (let i = 0; i < past.length; i++) {
 			pastFCF[i] = {
 				x: new Date(past[i].date),
@@ -117,10 +136,13 @@ export class Result extends React.Component {
 			};
 		}
 
+		// public Call auf Methoden in CFChart.js
 		window.fcfChartComponent.setPastFCF(pastFCF);
 		window.fcfChartComponent.setFutureFCF(futureFCF);
+		window.fcfChartComponent.setWaehrung(value.Currency);
 	}
 
+	//Finanzdaten bis aufschlüsseln für API call z.B. 2019-Q4 -> 31.12.2019
 	getValForecast() {
 		let valForcast = '3d.mm.yyyy';
 		let expertQuartal = sessionStorage.getItem('quartal');
@@ -178,7 +200,7 @@ export class Result extends React.Component {
 							<br />
 							<h1 className="left">Aktienkurs</h1>
 							<div className="divChart">
-								<LineChart className="myChart" />
+								<StockChart className="myChart" />
 							</div>
 
 							<br />

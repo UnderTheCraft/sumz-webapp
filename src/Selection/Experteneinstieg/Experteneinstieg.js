@@ -28,10 +28,12 @@ export class Experteneinstieg extends React.Component {
 		};
 	}
 
+	//Ausführen beim Bauen
 	componentDidMount() {
 		this.getFactors();
 	}
 
+	//API call für Default Werte des Experteneinstiegs
 	getFactors() {
 		fetch('https://sumz-backend.herokuapp.com/getDefaultExpertValues').then(
 			(response) => {
@@ -55,6 +57,7 @@ export class Experteneinstieg extends React.Component {
 		);
 	}
 
+	//Speichern in der Session für späteren API call
 	moveToSessionStorage() {
 		sessionStorage.setItem('mrp', this.state.factors.mrp);
 		sessionStorage.setItem('zinssatz', this.state.factors.zinssatz);
@@ -62,12 +65,14 @@ export class Experteneinstieg extends React.Component {
 		sessionStorage.setItem('fcfRate', this.state.factors.fcfRate);
 	}
 
+	// Werte des Experteneinstiegs speichern
 	saveFactors() {
 		var mrpVal = document.getElementById('mrp').value;
 		var zinssatzVal = document.getElementById('zinssatz').value;
 		var quartalVal = document.getElementById('datepicker').value;
 		var fcfVal = document.getElementById('fcfRate').value;
 
+		// Wenn leer, dann nicht speichern und gespeicherter Wert einsetzten
 		if (mrpVal === '') {
 			mrpVal = this.state.factors.mrp;
 		}
@@ -94,20 +99,23 @@ export class Experteneinstieg extends React.Component {
 		);
 	}
 
+	//vergangene und zukünftige Daten im Quartalpicker deaktivieren
 	disabledDate(current) {
 		// .subtract(3, 'months'), weil immer vom aktuellen Quartal ausgegangen wird. D.h. April ist Q2, es darf aber nur bis Q1 berechnet werden
 		let future = current > moment().endOf('day').subtract(3, 'months');
-		let past = current < moment('20190331', 'YYYYMMDD').endOf('day');
+		let past = current < moment().endOf('day').subtract(18, 'months');
 
 		return future || past;
 	}
 
+	//beim Schließen ohne Speichern des Experteneinstiegs -> reset der Werte auf Defaultwerte oder zuletzt gespeicherte Werte
 	resetExperteneinstieg() {
 		var feldMrp = document.getElementById('mrp');
 		var feldZinssatz = document.getElementById('zinssatz');
 		var feldDatepicker = document.getElementById('datepicker');
 		var feldFcfRate = document.getElementById('fcfRate');
 
+		// Wenn feld nur gelöscht, dann nicht speichern
 		if (feldMrp !== null) {
 			feldMrp.value = parseFloat(this.state.factors.mrp.valueOf());
 		}
@@ -122,14 +130,17 @@ export class Experteneinstieg extends React.Component {
 		}
 	}
 
+	//Für schnellere Eingabe ohne Backspace
 	removeZinssatzValue() {
 		document.getElementById('zinssatz').value = '';
 	}
 
+	//Für schnellere Eingabe ohne Backspace
 	removeMrpValue() {
 		document.getElementById('mrp').value = '';
 	}
 
+	//Für schnellere Eingabe ohne Backspace
 	removeFcfRateValue() {
 		document.getElementById('fcfRate').value = '';
 	}

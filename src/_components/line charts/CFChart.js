@@ -3,6 +3,7 @@ import CanvasJSReact from '../../_assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var pastFCF = [{ x: new Date(), y: 0 }];
 var futureFCF = [{ x: new Date(), y: 0 }];
+var waehrung = '';
 
 class CFChart extends Component {
 	constructor(props) {
@@ -12,36 +13,25 @@ class CFChart extends Component {
 		this.state = {};
 	}
 
+	// Vergangheits FCF setzen
 	setPastFCF(value) {
 		pastFCF = value;
 	}
 
+	// Vorhergesagte FCF setzen
 	setFutureFCF(value) {
 		futureFCF = value;
 	}
 
-	getStockData() {
-		fetch(
-			'https://sumz-backend.herokuapp.com/getStockChart/' +
-				sessionStorage.getItem('link')
-		).then((response) => {
-			response.json().then((data) => {
-				let dataPointsList = data.dataPoints;
-				let stockdataset = new Array(dataPointsList.length);
-
-				for (let i = 0; i < dataPointsList.length; i++) {
-					const dataPoint = dataPointsList[i];
-					let value = Math.round(dataPoint.y * 100) / 100;
-
-					stockdataset[i] = {
-						x: new Date(dataPoint.x),
-						y: value,
-					};
-				}
-
-				this.setState({ stockdata: stockdataset });
-			});
-		});
+	// Währung festlegen
+	setWaehrung(value) {
+		if (value === 'USD') {
+			waehrung = '$';
+		} else if (value === 'EUR') {
+			waehrung = '€';
+		} else {
+			waehrung = value;
+		}
 	}
 
 	render() {
@@ -49,7 +39,7 @@ class CFChart extends Component {
 			animationEnabled: true,
 			exportEnabled: true,
 			zoomEnabled: true,
-			theme: 'light2', // "light1", "dark1", "dark2"
+			theme: 'light2',
 			dataPointWidth: 30,
 			title: {
 				text: 'Free Cash Flow Verlauf',
@@ -57,25 +47,27 @@ class CFChart extends Component {
 			axisY: {
 				title: 'Free Cash Flow',
 				includeZero: false,
-				suffix: ' $', // sessionStorage.getItem('waehrung')
+				suffix: ' ' + waehrung,
 			},
 			data: [
 				{
+					//Vergangene Free Cash Flows Linie
 					name: 'Vergangene Free Cash Flows',
 					showInLegend: true,
 					color: '#192489',
 					type: 'line',
-					toolTipContent: '{x}: {y} $',
+					toolTipContent: '{x}: {y} ' + waehrung,
 					xValueFormatString: 'MMM YYYY',
 					markerSize: 10,
 					dataPoints: pastFCF,
 				},
 				{
+					//Vorhergesagte Free Cash Flows Linie
 					name: 'Vorhergesagte Free Cash Flows',
 					showInLegend: true,
 					color: 'rgb(220, 53, 69)',
 					type: 'line',
-					toolTipContent: '{x}: {y} $',
+					toolTipContent: '{x}: {y} ' + waehrung,
 					xValueFormatString: 'MMM YYYY',
 					markerSize: 10,
 					dataPoints: futureFCF,
@@ -85,12 +77,7 @@ class CFChart extends Component {
 
 		return (
 			<div>
-				<CanvasJSChart
-					options={options}
-					id="test"
-					/* onRef={ref => this.chart = ref} */
-				/>
-				{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+				<CanvasJSChart options={options} />
 			</div>
 		);
 	}
