@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../../_assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var berechneterKurswert = [{ x: new Date(), y: 0 }];
+var pastFCF = [{ x: new Date(), y: 0 }];
+var futureFCF = [{ x: new Date(), y: 0 }];
 
-class LineChart extends Component {
+class CFChart extends Component {
 	constructor(props) {
 		super(props);
-		window.chartComponent = this;
+		window.fcfChartComponent = this;
 
-		this.state = {
-			stockdata: [],
-		};
+		this.state = {};
 	}
 
-	setBerechneterKurswert(value) {
-		berechneterKurswert = value;
+	setPastFCF(value) {
+		pastFCF = value;
 	}
 
-	componentDidMount() {
-		this.getStockData();
+	setFutureFCF(value) {
+		futureFCF = value;
 	}
 
 	getStockData() {
@@ -53,32 +52,33 @@ class LineChart extends Component {
 			theme: 'light2', // "light1", "dark1", "dark2"
 			dataPointWidth: 30,
 			title: {
-				text: sessionStorage.getItem('unternehmen'),
+				text: 'Free Cash Flow Verlauf',
 			},
 			axisY: {
-				title: 'Kurswert',
+				title: 'Free Cash Flow',
 				includeZero: false,
 				suffix: ' $', // sessionStorage.getItem('waehrung')
 			},
 			data: [
 				{
-					name: 'Aktienkurswert',
+					name: 'Vergangene Free Cash Flows',
 					showInLegend: true,
 					color: '#192489',
 					type: 'line',
 					toolTipContent: '{x}: {y} $',
-					xValueFormatString: 'DD. MMM YYYY',
-					markerSize: 5,
-					dataPoints: this.state.stockdata,
+					xValueFormatString: 'MMM YYYY',
+					markerSize: 10,
+					dataPoints: pastFCF,
 				},
 				{
-					type: 'column',
-					color: 'rgb(220, 53, 69)',
-					name: 'Unternehmenswert',
+					name: 'Vorhergesagte Free Cash Flows',
 					showInLegend: true,
+					color: 'rgb(220, 53, 69)',
+					type: 'line',
 					toolTipContent: '{x}: {y} $',
-					xValueFormatString: 'DD. MMM YYYY',
-					dataPoints: berechneterKurswert,
+					xValueFormatString: 'MMM YYYY',
+					markerSize: 10,
+					dataPoints: futureFCF,
 				},
 			],
 		};
@@ -96,4 +96,4 @@ class LineChart extends Component {
 	}
 }
 
-export default LineChart;
+export default CFChart;

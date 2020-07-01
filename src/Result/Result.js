@@ -8,6 +8,7 @@ import { Layout } from '../_components/Layout/Layout';
 import LineChart from '../_components/line charts/Line Chart';
 import './Result.css';
 import Spinner from 'react-bootstrap/Spinner';
+import CFChart from '../_components/line charts/CFChart';
 
 export class Result extends React.Component {
 	constructor(props) {
@@ -70,6 +71,8 @@ export class Result extends React.Component {
 				var uwV = [{ x: new Date(), y: berechneterKurs }];
 				window.chartComponent.setBerechneterKurswert(uwV);
 
+				this.setFCFChart(data.FCF);
+
 				this.setState(
 					{
 						unternehmenswert: new Intl.NumberFormat('de-DE', {
@@ -91,6 +94,31 @@ export class Result extends React.Component {
 				);
 			});
 		});
+	}
+
+	setFCFChart(value) {
+		var forecast = value.Forecast;
+		var past = value.Past;
+
+		var futureFCF = new Array(forecast.length);
+		var pastFCF = new Array(past.length);
+
+		for (let i = 0; i < forecast.length; i++) {
+			futureFCF[i] = {
+				x: new Date(forecast[i].date),
+				y: Math.round(forecast[i].FCF * 100) / 100,
+			};
+		}
+
+		for (let i = 0; i < past.length; i++) {
+			pastFCF[i] = {
+				x: new Date(past[i].date),
+				y: Math.round(past[i].FCF * 100) / 100,
+			};
+		}
+
+		window.fcfChartComponent.setPastFCF(pastFCF);
+		window.fcfChartComponent.setFutureFCF(futureFCF);
 	}
 
 	getValForecast() {
@@ -133,13 +161,13 @@ export class Result extends React.Component {
 							</p>
 							<br />
 							<h1 className="left">
-								Marktkapitalisierung: 
+								Marktkapitalisierung:
 								<br />
 								{this.state.marktkapitalisierung}
 							</h1>
 							<br />
 							<h1 className="left">
-								Berechneter Unternehmenswert: 
+								Berechneter Unternehmenswert:
 								<br />
 								{this.state.unternehmenswert}
 							</h1>
@@ -149,9 +177,14 @@ export class Result extends React.Component {
 							</p>
 							<br />
 							<h1 className="left">Aktienkurs</h1>
-
 							<div className="divChart">
 								<LineChart className="myChart" />
+							</div>
+
+							<br />
+							<h1 className="left">Free Cash Flow</h1>
+							<div className="divChart">
+								<CFChart className="myChart" />
 							</div>
 
 							<br />
