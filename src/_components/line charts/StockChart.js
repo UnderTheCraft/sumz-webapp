@@ -55,6 +55,10 @@ class StockChart extends Component {
 						x: new Date(dataPoint.x),
 						y: value,
 					};
+
+					if (i === dataPointsList.length - 1) {
+						sessionStorage.setItem('aktienkurs', value);
+					}
 				}
 
 				this.setState({ stockdata: stockdataset });
