@@ -80,6 +80,7 @@ class StockChart extends Component {
 				title: 'Kurswert',
 				includeZero: false,
 				suffix: ' ' + waehrung,
+				minimum: 0,
 			},
 			data: [
 				{

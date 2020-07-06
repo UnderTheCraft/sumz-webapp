@@ -39,7 +39,7 @@ export class Result extends React.Component {
 
 		linkApi += '/' + sessionStorage.getItem('link');
 		linkApi += '/' + sessionStorage.getItem('methodLink');
-		linkApi += '?last_date_forecast=' + valForcast;
+		linkApi += '?last_date=' + valForcast;
 		linkApi += '&risk_free_interest_rate=' + sessionStorage.getItem('zinssatz');
 		linkApi += '&market_risk_premium=' + sessionStorage.getItem('mrp');
 		linkApi += '&fcf_growth_rate=' + sessionStorage.getItem('fcfRate');
